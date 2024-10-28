@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Authorization.Controllers
 {
+    [Route("api/User")]
+    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

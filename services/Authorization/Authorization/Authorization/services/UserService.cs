@@ -28,13 +28,14 @@ namespace Authorization.services
             //далі треба зберегти user
             var user = User.Create(Guid.NewGuid(), userName, hashedPassword, email);
             //збереження user до бд
-            await _userRepository.Add(user);
+            await _userRepository.AddTest(user);
             await _userRepository.Save();
         }
         public async Task<string> Login(string email, string password)
         {
             //провірити email
-            var user = _userRepository.Get(u => u.Email == email);
+            
+            var user = await _userRepository.GetUser(email);
             //перевірити password
             var result = _passwordHasher.Verify(password, user.PasswordHash);
             if (result == false)

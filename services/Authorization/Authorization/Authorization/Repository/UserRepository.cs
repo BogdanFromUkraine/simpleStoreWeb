@@ -2,6 +2,7 @@
 using Authorization.Models;
 using Authorization.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Notes_project.Models.ModelsDTO;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -40,6 +41,87 @@ namespace Authorization.Repository
         public async Task Save()
         {
             _db.SaveChanges();
+        }
+
+        public async Task<HashSet<Authorization.Enum.Permission>> GetUserPermission(Guid userId)
+        {
+            try
+            {
+                var roles = _db.User
+              .AsNoTracking()
+              .Include(u => u.Roles)
+              .ThenInclude(r => r.Permissions)
+              .Where(u => u.Id == userId)
+              .Select(u => u.Roles)
+              .ToListAsync().GetAwaiter().GetResult();
+                return roles
+                    .SelectMany(r => r)
+                    .SelectMany(r => r.Permissions)
+                    .Select(p => (Authorization.Enum.Permission)p.Id)
+                    //.Select(p =>
+                    //{
+                    //    if (int.TryParse(p.PermissionId.ToString(), out int permissionEnumValue) &&
+                    //        Enum.IsDefined(typeof(PermissionEnum), permissionEnumValue))
+                    //    {
+                    //        var permissionEnum = (PermissionEnum)permissionEnumValue;
+                    //        return ConvertToPermission(permissionEnum);
+                    //    }
+                    //    throw new ArgumentException($"Invalid PermissionId: {p.PermissionId}");
+                    //})
+                    .ToHashSet();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+        }
+
+        public async Task AddTest(User user)
+        {
+            try
+            {
+                var roleEntity = _db.Roles.SingleOrDefaultAsync(r => r.Id == (int)Authorization.Enum.Role.User).GetAwaiter().GetResult();
+                var userEntity = new User()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    PasswordHash = user.PasswordHash,
+                    Email = user.Email,
+                    Roles = [roleEntity]
+                };
+                _db.User.Add(userEntity);
+                _db.SaveChangesAsync().GetAwaiter().GetResult();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+        public async Task<UserDTOTest> GetUser(string email)
+        {
+            try
+            {
+                var user = _db.User
+                .Include(u => u.Roles)
+                .FirstOrDefault(u => u.Email == email);
+                var userDto = new UserDTOTest
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    PasswordHash = user.PasswordHash,
+                    Roles = user.Roles.Select(r => r.Name).ToList() // Додаємо тільки назви ролей
+                };
+                return userDto;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

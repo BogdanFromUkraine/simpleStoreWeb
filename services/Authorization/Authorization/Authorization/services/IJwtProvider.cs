@@ -1,9 +1,10 @@
 ﻿using Authorization.Models;
+using Notes_project.Models.ModelsDTO;
 
 namespace Authorization.services
 {
     public interface IJwtProvider
     {
-        string GenerateToken(User user);
+        string GenerateToken(UserDTOTest user);
     }
 }

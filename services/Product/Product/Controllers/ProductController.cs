@@ -6,7 +6,7 @@ using Product.Repository.IRepository;
 
 namespace Product.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Product")]
     [ApiController]
     public class ProductsController : ControllerBase
     {

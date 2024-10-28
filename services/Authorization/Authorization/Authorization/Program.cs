@@ -4,8 +4,10 @@ using Authorization.Repository;
 using Authorization.Repository.IRepository;
 using Authorization.services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Authorization.Services;
 using System.Text;
 
 namespace Authorization
@@ -24,6 +26,10 @@ namespace Authorization
 
             //створив Configuration, щоб получити secret key
             var configuration = builder.Configuration;
+
+
+            //створюю конфігурацію, щоб пізніше переадти через DI
+            builder.Services.Configure<AuthorizationOptions>(configuration.GetSection(nameof(AuthorizationOptions)));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -54,11 +60,21 @@ namespace Authorization
                     };
                 });
             builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Create]));
+                    policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Delete]));
+                });
+            });
 
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IJwtProvider, JwtProvider>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IPermissionService, PermissionService>();
+            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
