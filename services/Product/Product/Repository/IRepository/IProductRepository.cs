@@ -1,10 +1,15 @@
 ﻿using Product.Models;
+using ProductService.Models;
 using System.Linq.Expressions;
-using WebApp.DataAccess.Repository.IRepository;
 
 namespace Product.Repository.IRepository
 {
-    public interface IProductRepository : IRepository<Products>
+    public interface IProductRepository
     {
+        Task Add(ProductsDTO entity);
+        IEnumerable<Products> GetAll();
+        Task Remove(int id);
+        Task<Products> GetProduct(int id);
+        Task Update(int id, ProductsDTO productsDTO);
     }
 }

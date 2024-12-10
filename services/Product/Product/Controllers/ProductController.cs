@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Product.DataAccess;
-using Product.Models;
+using ProductService.Models;
 using Product.Repository.IRepository;
+using CartService.DataAccess;
+using Product.Models;
 
 namespace Product.Controllers
 {
@@ -27,38 +28,29 @@ namespace Product.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)
         {
-            var product = _productRepository.Get(i => i.Id == id);
+            var product = _productRepository.GetProduct(id);
 
             if (product == null)
             {
                 return NotFound();
             }
+
             return Ok(product);
         }
 
         //методи нижче будуть доступні тільки адміну
         [HttpPost]
-        public async Task<ActionResult<Products>> CreateProduct(Products product)
+        public async Task<IActionResult> CreateProduct(ProductsDTO product)
         {
-            _productRepository.Add(product);
-            await _productRepository.Save();
+            await _productRepository.Add(product);
+
             return Ok("все пройшло успішно");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, Products product)
+        public async Task<IActionResult> UpdateProduct(int id, ProductsDTO product)
         {
-            var productFromDb = _productRepository.Get(i => i.Id == id);
-            productFromDb = new Products() 
-            {
-                Id = id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Stock = product.Stock,
-            };
-            await _productRepository.Update(productFromDb);
-            await _productRepository.Save();
+            await _productRepository.Update(id, product);
 
             return Ok("Все пройшло успішно");
         }
@@ -66,14 +58,7 @@ namespace Product.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = _productRepository.Get(i => i.Id == id);
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-            await _productRepository.Remove(product);
-            await _productRepository.Save();
+            await _productRepository.Remove(id);
             return Ok("Все пройшло успішно");
         }
     }

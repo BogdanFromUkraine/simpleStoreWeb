@@ -1,9 +1,9 @@
 
+using CartService.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Product.DataAccess;
 using Product.Repository;
 using Product.Repository.IRepository;
-using WebApp.DataAccess.Repository.IRepository;
+
 
 namespace Product
 {
@@ -18,7 +18,7 @@ namespace Product
             //DI
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
-            //підключаю бд
+            ////підключаю бд
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
             option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
