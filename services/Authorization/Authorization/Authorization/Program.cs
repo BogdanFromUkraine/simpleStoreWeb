@@ -1,5 +1,5 @@
 ﻿
-using Authorization.DataAccess;
+
 using Authorization.Repository;
 using Authorization.Repository.IRepository;
 using Authorization.services;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Authorization.Services;
 using System.Text;
+using CartService.DataAccess;
 
 namespace Authorization
 {
@@ -22,7 +23,8 @@ namespace Authorization
 
             //підключаю бд
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
-            option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            b => b.MigrationsAssembly("DataAccess")));
 
             //створив Configuration, щоб получити secret key
             var configuration = builder.Configuration;

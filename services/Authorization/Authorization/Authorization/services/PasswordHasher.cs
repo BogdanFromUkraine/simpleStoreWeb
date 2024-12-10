@@ -1,4 +1,4 @@
-﻿using Authorization.Models;
+﻿using ProductService.Models;
 using System.Security.Claims;
 using System.Text;
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Authorization.Models;
+using ProductService.Models;
 
 namespace Authorization.Configuration
 {

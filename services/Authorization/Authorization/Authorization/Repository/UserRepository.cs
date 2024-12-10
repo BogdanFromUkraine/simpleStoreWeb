@@ -1,10 +1,11 @@
-﻿using Authorization.DataAccess;
-using Authorization.Models;
+﻿using ProductService.Models;
 using Authorization.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Notes_project.Models.ModelsDTO;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using CartService.DataAccess;
+using CartService.Models;
 
 namespace Authorization.Repository
 {
@@ -89,7 +90,8 @@ namespace Authorization.Repository
                     UserName = user.UserName,
                     PasswordHash = user.PasswordHash,
                     Email = user.Email,
-                    Roles = [roleEntity]
+                    Roles = [roleEntity],
+                    Cart = new Cart(),
                 };
                 _db.User.Add(userEntity);
                 _db.SaveChangesAsync().GetAwaiter().GetResult();

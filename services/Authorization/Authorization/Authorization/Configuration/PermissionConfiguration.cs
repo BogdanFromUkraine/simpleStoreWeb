@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Permission = Authorization.Models.Permission;
+using Permission = ProductService.Models.Permission;
 
 namespace Authorization.Configuration
 {
