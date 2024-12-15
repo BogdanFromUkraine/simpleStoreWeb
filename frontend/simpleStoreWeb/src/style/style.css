@@ -7,6 +7,10 @@ body {
   color: #333;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -34,14 +38,17 @@ header .logo {
   justify-content: center;
   background: url("/assets/hero.jpg") no-repeat center center / cover;
   height: 60vh;
-  color: white;
+  color: black;
   text-align: center;
 }
 
 .hero-content {
-  background: rgba(0, 0, 0, 0.5);
   padding: 2rem;
   border-radius: 10px;
+  background-color: linear-gradient(45deg, #555, #444, #333);
+  border-radius: 8px;
+  box-shadow: 0 0 20px #ff7b54;
+  animation: glow 3s infinite alternate, pulse 3s infinite alternate;
 }
 
 .hero-content h1 {
@@ -92,4 +99,72 @@ footer {
   color: white;
   text-align: center;
   padding: 1rem 0;
+}
+
+/*стиль анімації переливання сяйва навколо елемента */
+.glowing-box {
+  width: 150px;
+  height: 50px;
+  background-color: #ffa756;
+  border-radius: 8px;
+  box-shadow: 0 0 20px #ff7b54;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px #444, 0 0 20px #555;
+    background-position: 0% 50%;
+  }
+  50% {
+    box-shadow: 0 0 30px #666, 0 0 50px #555;
+    background-position: 50% 50%;
+  }
+  100% {
+    box-shadow: 0 0 40px #555, 0 0 60px #666;
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+.scroll_button {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: transparent; /* Без фону */
+  color: #ff7b54; /* Колір тексту */
+  border: 2px solid #ff7b54; /* Окружність для кнопки */
+  border-radius: 50px; /* Круглі краї */
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Плавна зміна при наведенні */
+}
+
+scroll_button:hover {
+  background-color: #ff7b54; /* Зміна фону при наведенні */
+  color: white; /* Колір тексту при наведенні */
+}
+
+scroll_button:focus {
+  outline: none; /* Забираємо контур при фокусі */
+}
+
+/* Для кнопки у бібліотеці react-scroll-to-top */
+.scroll-to-top {
+  box-shadow: none !important; /* Забирає тінь, перекриваючи інші стилі */
 }
