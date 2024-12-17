@@ -1,0 +1,33 @@
+/* Контейнер для сніжинок */
+.snow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Фон не заважає клікам */
+  overflow: hidden;
+  z-index: 1000; /* Ставимо поверх інших елементів */
+}
+
+/* Сніжинка */
+.snowflake {
+  position: absolute;
+  top: -10%; /* Стартова позиція поза екраном */
+  color: rgb(10, 49, 243); /* Колір сніжинки */
+  font-size: 1em; /* Початковий розмір */
+  opacity: 1; /* Легка прозорість */
+  animation: fall linear infinite; /* Анімація падіння */
+}
+
+/* Анімація для сніжинок */
+@keyframes fall {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(100vh); /* Сніжинка доходить до низу екрану */
+    opacity: 0.1;
+  }
+}

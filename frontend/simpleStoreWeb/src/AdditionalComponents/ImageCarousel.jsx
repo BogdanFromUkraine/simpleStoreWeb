@@ -1,11 +1,10 @@
-import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../style/imageCarousel.css";
 
 import img1 from "../img/crew-4Hg8LH9Hoxc-unsplash.jpg";
-import img2 from "../img/linkedin-sales-solutions-0QvTyp0gH3A-unsplash.jpg";
+import img2 from "../img/james-mckinven-tpuAo8gVs58-unsplash.jpg";
 import img3 from "../img/luca-bravo-9l_326FISzk-unsplash.jpg";
 
 const ImageCarousel = () => {

@@ -6,12 +6,13 @@ import ScrollToTop from "react-scroll-to-top";
 import Shop from "./Shop";
 import ImageCarousel from "./AdditionalComponents/ImageCarousel";
 import "./style/style.css";
+import Snowfall from "./AdditionalComponents/SnowFall";
+import Cart from "./Cart";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
+    <>
+      {/* <Snowfall />
       <Header />
       <HeroSection />
       <ImageCarousel />
@@ -21,8 +22,9 @@ function App() {
         component={<button className="scroll_button">↑</button>}
         style={{ border: "none", background: "transparent" }} // забираю базовий стиль компонента
       />
-      <Footer />
-    </div>
+      <Footer /> */}
+      <Cart />
+    </>
   );
 }
 
