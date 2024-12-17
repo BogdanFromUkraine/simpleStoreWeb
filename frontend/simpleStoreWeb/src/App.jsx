@@ -8,22 +8,16 @@ import ImageCarousel from "./AdditionalComponents/ImageCarousel";
 import "./style/style.css";
 import Snowfall from "./AdditionalComponents/SnowFall";
 import Cart from "./Cart";
+import Home from "./Home";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <>
-      {/* <Snowfall />
+      <Snowfall />
       <Header />
-      <HeroSection />
-      <ImageCarousel />
-      <Shop />
-      <ScrollToTop
-        smooth
-        component={<button className="scroll_button">↑</button>}
-        style={{ border: "none", background: "transparent" }} // забираю базовий стиль компонента
-      />
-      <Footer /> */}
-      <Cart />
+      <Outlet />
+      <Footer />
     </>
   );
 }
