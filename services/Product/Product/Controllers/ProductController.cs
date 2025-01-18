@@ -4,6 +4,7 @@ using ProductService.Models;
 using Product.Repository.IRepository;
 using CartService.DataAccess;
 using Product.Models;
+using Product.Kafka;
 
 namespace Product.Controllers
 {
@@ -12,6 +13,7 @@ namespace Product.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+
 
         public ProductsController(ApplicationDbContext context, IProductRepository productRepository)
         {
@@ -22,6 +24,9 @@ namespace Product.Controllers
         public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
             var products = _productRepository.GetAll();
+
+          
+
             return Ok(products);
         }
 

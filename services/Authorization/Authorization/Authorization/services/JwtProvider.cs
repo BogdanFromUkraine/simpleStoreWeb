@@ -1,4 +1,4 @@
-﻿using ProductService.Models;
+﻿using Authorization.Models;
 using Microsoft.IdentityModel.Tokens;
 using Notes_project.Models.ModelsDTO;
 using System.IdentityModel.Tokens.Jwt;

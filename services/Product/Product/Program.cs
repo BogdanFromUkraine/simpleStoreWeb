@@ -1,6 +1,7 @@
 
 using CartService.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Product.Kafka;
 using Product.Repository;
 using Product.Repository.IRepository;
 
@@ -21,6 +22,9 @@ namespace Product
             ////підключаю бд
             builder.Services.AddDbContext<ApplicationDbContext>(option =>
             option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //реєстрація фонової служби
+            builder.Services.AddHostedService<KafkaConsumer>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

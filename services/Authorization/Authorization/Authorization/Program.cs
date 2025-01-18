@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Authorization.Services;
 using System.Text;
 using CartService.DataAccess;
+using Authorization.Kafka.Producer;
 
 namespace Authorization
 {
@@ -77,6 +78,7 @@ namespace Authorization
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IPermissionService, PermissionService>();
             builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            builder.Services.AddScoped<IKafkaProducer, UserEventProducer>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

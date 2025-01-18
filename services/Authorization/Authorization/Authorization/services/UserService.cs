@@ -1,7 +1,7 @@
-﻿using ProductService.Models;
-using Authorization.Repository.IRepository;
+﻿using Authorization.Repository.IRepository;
 using System.Security.Claims;
 using System.Text;
+using ProductService.Models;
 
 namespace Authorization.services
 {
