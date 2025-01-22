@@ -8,25 +8,25 @@
     using Newtonsoft.Json;
     using ProductService.Models;
 
-    public class UserEventProducer : IKafkaProducer
+    public class ProductEventProducer : IKafkaProducer
     {
-        private readonly IProducer<string, string> _producer;
+        private readonly IProducer<Null, string> _producer;
 
-        public UserEventProducer()
+        public ProductEventProducer()
         {
             var config = new ProducerConfig
             {
                 BootstrapServers = "localhost:9092",
             };
 
-            _producer = new ProducerBuilder<string, string>(config).Build();
+            _producer = new ProducerBuilder<Null, string>(config).Build();
         }
 
-        public async Task SendMessageAsync(string topic, string key, string message)
+        public async Task SendMessageAsync(string topic, string key, IEnumerable<Products> message)
         {
             try
             {
-                var deliveryResult = await _producer.ProduceAsync(topic, new Message<string, string>
+                var deliveryResult = await _producer.ProduceAsync(topic, new Message<Null, string>
                 {
                     Value = JsonConvert.SerializeObject(message)
                 });

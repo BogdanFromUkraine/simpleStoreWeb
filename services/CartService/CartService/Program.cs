@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using CartService.DataAccess;
 using CartService.Repository.IRepository;
 using CartService.Repository;
+using CartService.Kafka.Consumer;
 
 namespace CartService
 {
@@ -25,6 +26,11 @@ namespace CartService
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+
+            //реєстрація фонової служби
+            builder.Services.AddHostedService<KafkaConsumerBackgroundService>();
+            builder.Services.AddSingleton<IKafkaConsumer, KafkaConsumer>();
+            builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
 
             var app = builder.Build();
 

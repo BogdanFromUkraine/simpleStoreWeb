@@ -7,7 +7,7 @@ namespace CartService.Repository.IRepository
     {
         Task<Cart> GetCartByUserId(Guid userId);
        
-        Task AddToCart(Guid userId, int productId);
-        Task RemoveFromCart(Guid userId, int productId);
+        Task AddToCart(Guid userId, Products product);
+        Task RemoveFromCart(Guid userId, Products product);
     }
 }

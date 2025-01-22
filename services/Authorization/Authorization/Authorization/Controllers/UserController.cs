@@ -17,11 +17,13 @@ namespace Authorization.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
-            var JwtToken = _userService.Login(email, password);
+            var JwtToken = await _userService.Login(email, password);
 
-           
+            //kafka producer
+            _kafkaProducer.SendMessageAsync("user-topic", "key1", JwtToken);
+            _kafkaProducer.Dispose();
 
             return Ok(JwtToken);
         }
@@ -29,9 +31,7 @@ namespace Authorization.Controllers
         [HttpGet]
         public IActionResult Test()
         {
-            //kafka producer
-            _kafkaProducer.SendMessageAsync("my-topic", "key1", "Hello jfsd");
-            _kafkaProducer.Dispose();
+           
             return Ok("fdf");
         }
 

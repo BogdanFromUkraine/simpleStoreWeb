@@ -25,12 +25,12 @@ namespace CartService.Repository
 
         
 
-        public async Task AddToCart(Guid userId, int productId)
+        public async Task AddToCart(Guid userId, Products product)
         {
             var cart = await GetCartByUserId(userId);
            
             //шукаю product, який треба буде добавити до кошику
-            var product = _db.Products.FirstOrDefault(p => p.Id == productId);
+            //var product = _db.Products.FirstOrDefault(p => p.Id == productId);
 
 
             // Додати продукт до кошика
@@ -39,12 +39,12 @@ namespace CartService.Repository
 
         }
 
-        public async Task RemoveFromCart(Guid userId, int productId)
+        public async Task RemoveFromCart(Guid userId, Products product)
         {
             var cart = await GetCartByUserId(userId);
             if (cart != null)
             {
-                var product = cart.Items.FirstOrDefault(p => p.Id == productId);
+              //  var product = cart.Items.FirstOrDefault(p => p.Id == productId);
                 if (product != null)
                 {
                     cart.Items.Remove(product);

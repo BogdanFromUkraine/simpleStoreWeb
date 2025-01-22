@@ -4,7 +4,8 @@ using ProductService.Models;
 using Product.Repository.IRepository;
 using CartService.DataAccess;
 using Product.Models;
-using Product.Kafka;
+using Product.Kafka.Consumer;
+using Authorization.Kafka.Producer;
 
 namespace Product.Controllers
 {
@@ -13,11 +14,18 @@ namespace Product.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+        private readonly IMessageStorageService _messageStorageService;
+        private readonly IKafkaProducer _kafkaProducer;
 
 
-        public ProductsController(ApplicationDbContext context, IProductRepository productRepository)
+        public ProductsController(ApplicationDbContext context,
+            IProductRepository productRepository,
+            IMessageStorageService messageStorageService,
+            IKafkaProducer kafkaProducer)
         {
             _productRepository = productRepository;
+            _messageStorageService = messageStorageService;
+            _kafkaProducer = kafkaProducer;
         }
 
         [HttpGet]
@@ -25,9 +33,18 @@ namespace Product.Controllers
         {
             var products = _productRepository.GetAll();
 
-          
+            //kafka producer
+            _kafkaProducer.SendMessageAsync("product-topic", "key", products);
+            _kafkaProducer.Dispose();
 
             return Ok(products);
+        }
+
+        [HttpGet("Test")]
+        public IActionResult Test() 
+        {
+            var message = _messageStorageService.GetAllMessages();
+            return Ok(message);
         }
 
         [HttpGet("{id}")]
