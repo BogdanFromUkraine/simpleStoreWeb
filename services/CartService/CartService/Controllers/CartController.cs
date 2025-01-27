@@ -28,12 +28,12 @@ namespace CartService.Controllers
             return Ok(cart.Items);
         }
 
-        [HttpGet("Test")]
-        public IActionResult Test() 
-        {
-            var message = _messageStorageService.GetAllMessages();
-                    return Ok(message);
-        }
+        //[HttpGet("Test")]
+        //public IActionResult Test() 
+        //{
+        //    var message = _messageStorageService.GetAllMessages();
+        //            return Ok(message);
+        //}
 
         [HttpPost("{userId}/items/{productId}")]
         public async Task<ActionResult<Cart>> AddToCart(Guid userId, int productId)
