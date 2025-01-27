@@ -30,6 +30,17 @@ namespace Product
             builder.Services.AddScoped<IKafkaProducer, ProductEventProducer>();
             builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
 
+            // Додаємо CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowGateway", policy =>
+                {
+                    policy.WithOrigins("http://localhost:7176") // URL шлюзу
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -47,7 +58,8 @@ namespace Product
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            // Використовуємо CORS
+            app.UseCors("AllowGateway");
 
             app.MapControllers();
 

@@ -80,6 +80,17 @@ namespace Authorization
             builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             builder.Services.AddScoped<IKafkaProducer, UserEventProducer>();
 
+            // Додаємо CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowGateway", policy =>
+                {
+                    policy.WithOrigins("http://localhost:7176") // URL шлюзу
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -100,6 +111,8 @@ namespace Authorization
             app.UseAuthorization();
 
             app.UseAuthentication();
+            // Використовуємо CORS
+            app.UseCors("AllowGateway");
 
             app.MapControllers();
 

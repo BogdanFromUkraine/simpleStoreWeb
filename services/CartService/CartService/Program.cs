@@ -32,6 +32,17 @@ namespace CartService
             builder.Services.AddSingleton<IKafkaConsumer, KafkaConsumer>();
             builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
 
+            // Додаємо CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowGateway", policy =>
+                {
+                    policy.WithOrigins("http://localhost:7176") // URL шлюзу
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -45,6 +56,8 @@ namespace CartService
 
             app.UseAuthorization();
 
+            // Використовуємо CORS
+            app.UseCors("AllowGateway");
 
             app.MapControllers();
 
