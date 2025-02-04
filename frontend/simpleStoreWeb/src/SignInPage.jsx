@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./style/stylesToAuthorization.css";
+import LoginUser from "./Services/Authorization/loginUser";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -12,9 +13,10 @@ const SignInPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Тут буде логіка для відправки даних на сервер для входу
+    var test = await LoginUser(formData.email, formData.password);
     console.log("Form Data:", formData);
   };
 

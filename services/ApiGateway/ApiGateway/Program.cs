@@ -12,26 +12,36 @@ namespace ApiGateway
             // Додаємо Ocelot конфігурацію
             builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("https://localhost:5173") // Дозволяє запити з React
+                              .AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowCredentials(); // Дозволяє кукі, якщо потрібно
+                    });
+            });
+
             // Додаємо Ocelot як службу
             builder.Services.AddOcelot();
 
-            // Додаємо CORS
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigins", policy =>
-                {
-                    policy.WithOrigins("http://localhost:5173") // Дозволені джерела
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
-            });
+           
 
             var app = builder.Build();
 
             app.MapGet("/", () => Console.WriteLine("Hello World!"));
 
             // Використовуємо CORS
-            app.UseCors("AllowSpecificOrigins");
+            app.UseCors("AllowFrontend");
+
+            //для обробки body
+            app.Use(async (context, next) =>
+            {
+                context.Request.EnableBuffering();
+                await next();
+            });
 
             // Використовуємо Ocelot Middleware для обробки запитів
             app.UseOcelot().GetAwaiter();

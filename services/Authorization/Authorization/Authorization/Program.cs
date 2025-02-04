@@ -80,17 +80,17 @@ namespace Authorization
             builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
             builder.Services.AddScoped<IKafkaProducer, UserEventProducer>();
 
-            // Додаємо CORS
+            // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowGateway", policy =>
-                {
-                    policy.WithOrigins("http://localhost:7176") // URL шлюзу
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
+                options.AddPolicy("AllowOcelot",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
             });
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -112,7 +112,7 @@ namespace Authorization
 
             app.UseAuthentication();
             // Використовуємо CORS
-            app.UseCors("AllowGateway");
+            app.UseCors("AllowOcelot");
 
             app.MapControllers();
 

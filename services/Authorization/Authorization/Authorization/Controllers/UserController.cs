@@ -1,4 +1,5 @@
 ﻿using Authorization.Kafka.Producer;
+using Authorization.Models.ModelsDTO;
 using Authorization.services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +18,9 @@ namespace Authorization.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] UserAuthorizationDTO data)
         {
-            var JwtToken = await _userService.Login(email, password);
+            var JwtToken = await _userService.Login(data.email, data.password);
 
             //kafka producer
             _kafkaProducer.SendMessageAsync("user-topic", "key1", JwtToken);
@@ -36,9 +37,9 @@ namespace Authorization.Controllers
         }
 
         [HttpPost("Register")]
-        public IActionResult Register(string userName, string email, string password)
+        public IActionResult Register([FromBody] UserAuthorizationDTO data)
         {
-            var JwtToken = _userService.Register(userName, email, password);
+            var JwtToken = _userService.Register(data.userName, data.email, data.password);
             return Ok(JwtToken);
         }
     }

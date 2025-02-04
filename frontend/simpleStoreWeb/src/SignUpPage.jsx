@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./style/stylesToAuthorization.css";
+import RegisterUser from "./Services/Authorization/registerUser";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -13,9 +14,11 @@ const SignUpPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Тут буде логіка для відправки даних на сервер для реєстрації
+    await RegisterUser(formData.username, formData.email, formData.password);
+
     console.log("Form Data:", formData);
   };
 

@@ -1,7 +1,14 @@
 {
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7176/"
+    "BaseUrl": "https://localhost:7176",
+    "UpstreamHeaderTransform": {
+      "Access-Control-Allow-Origin": "https://localhost:5173",
+      "Access-Control-Allow-Credentials": "true",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "*"
+    }
   },
+  
   "Routes": [
     {
       "UpstreamPathTemplate": "/products",
@@ -30,6 +37,7 @@
     {
       "UpstreamPathTemplate": "/auth/login",
       "UpstreamHttpMethod": [ "Post" ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
       "DownstreamPathTemplate": "/api/User/Login",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
