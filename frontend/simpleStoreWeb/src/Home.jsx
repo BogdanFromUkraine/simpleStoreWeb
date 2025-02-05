@@ -1,6 +1,6 @@
 import HeroSection from "./HeroSection";
 import ImageCarousel from "./AdditionalComponents/ImageCarousel";
-import Shop from "./Shop";
+import { Shop } from "./Shop";
 import ScrollToTop from "react-scroll-to-top";
 
 function Home() {
