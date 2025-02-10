@@ -8,6 +8,7 @@ import Home from "./Home.jsx";
 import Cart from "./Cart.jsx";
 import SignInPage from "./SignInPage.jsx";
 import SignUpPage from "./SignUpPage.jsx";
+import AddProduct from "./AddProduct.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "cart", element: <Cart /> },
       { path: "signIn", element: <SignInPage /> },
       { path: "signUp", element: <SignUpPage /> },
+      { path: "addProduct", element: <AddProduct /> },
     ],
   },
 ]);

@@ -8,11 +8,23 @@
       "Access-Control-Allow-Headers": "*"
     }
   },
-  
+
   "Routes": [
     {
       "UpstreamPathTemplate": "/products",
       "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamPathTemplate": "/api/Product",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/products",
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/Product",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

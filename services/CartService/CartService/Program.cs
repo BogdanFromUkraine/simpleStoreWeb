@@ -32,17 +32,17 @@ namespace CartService
             builder.Services.AddSingleton<IKafkaConsumer, KafkaConsumer>();
             builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
 
-            // Додаємо CORS
+            // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowGateway", policy =>
-                {
-                    policy.WithOrigins("http://localhost:7176") // URL шлюзу
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
+                options.AddPolicy("AllowOcelot",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
             });
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,7 +57,7 @@ namespace CartService
             app.UseAuthorization();
 
             // Використовуємо CORS
-            app.UseCors("AllowGateway");
+            app.UseCors("AllowOcelot");
 
             app.MapControllers();
 

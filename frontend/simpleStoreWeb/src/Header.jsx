@@ -8,6 +8,9 @@ const Header = () => {
     <header className="header">
       <div className="logo">WebShop</div>
       <nav className="nav-links">
+        <Link to="/addProduct" className="nav-link">
+          Add Product(для адміна)
+        </Link>
         <Link to="/" className="nav-link">
           Home
         </Link>

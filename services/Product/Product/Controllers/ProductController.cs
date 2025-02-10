@@ -62,7 +62,7 @@ namespace Product.Controllers
 
         //методи нижче будуть доступні тільки адміну
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductsDTO product)
+        public async Task<IActionResult> CreateProduct([FromBody]ProductsDTO product)
         {
             await _productRepository.Add(product);
 

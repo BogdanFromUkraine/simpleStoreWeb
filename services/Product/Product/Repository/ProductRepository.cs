@@ -20,8 +20,8 @@ namespace Product.Repository
             {
                 Name = entity.Name,
                 Description = entity.Description,
-                Price = entity.Price,
-                Stock = entity.Stock,
+                Price = decimal.Parse( entity.Price),
+                Stock = int.Parse(entity.Stock),
                 Cart = null,
                 CartId = null,
 
@@ -60,8 +60,8 @@ namespace Product.Repository
             //оновлення даних
             product.Name = productsDTO.Name;
             product.Description = productsDTO.Description;
-            product.Price = productsDTO.Price;
-            product.Stock = productsDTO.Stock;
+            product.Price = decimal.Parse( productsDTO.Price);
+            product.Stock = int.Parse(productsDTO.Stock);
             
             _db.Update(product);
             _db.SaveChangesAsync();

@@ -28,13 +28,6 @@ namespace CartService.Controllers
             return Ok(cart.Items);
         }
 
-        //[HttpGet("Test")]
-        //public IActionResult Test() 
-        //{
-        //    var message = _messageStorageService.GetAllMessages();
-        //            return Ok(message);
-        //}
-
         [HttpPost("{userId}/items/{productId}")]
         public async Task<ActionResult<Cart>> AddToCart(Guid userId, int productId)
         {
@@ -43,8 +36,7 @@ namespace CartService.Controllers
             var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
                               .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
             
-
-            //await _cartRepository.AddToCart(userId, productId);
+            await _cartRepository.AddToCart(userId, product);
             return Ok(product);
         }
 

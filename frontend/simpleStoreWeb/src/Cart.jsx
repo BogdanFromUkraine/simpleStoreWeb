@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./style/cart.module.css";
 
 const Cart = () => {
@@ -7,6 +7,15 @@ const Cart = () => {
     { id: 2, name: "Product 2", price: 20, quantity: 2 },
     { id: 3, name: "Product 3", price: 15, quantity: 1 },
   ]);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = parseJwt(token);
+      setUserId(decoded?.userId);
+    }
+  }, []);
 
   // Функція для оновлення кількості
   const updateQuantity = (id, delta) => {

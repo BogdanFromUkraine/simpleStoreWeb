@@ -5,11 +5,6 @@ import { useStores } from "../store/root-store-context";
 
 export const Shop = observer(() => {
   const { products, get_Products } = useStores();
-  // const products = [
-  //   { id: 1, name: "Product 1", price: 10, image: "/assets/product1.jpg" },
-  //   { id: 2, name: "Product 2", price: 20, image: "/assets/product2.jpg" },
-  //   { id: 3, name: "Product 3", price: 30, image: "/assets/product3.jpg" },
-  // ];
 
   useEffect(() => {
     async function getAllProducts() {
@@ -22,9 +17,13 @@ export const Shop = observer(() => {
     <div className="shop">
       <h1>Shop</h1>
       <div className="product-grid">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {products && products.length > 0 ? (
+          products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <div>Products are not find</div>
+        )}
       </div>
     </div>
   );
