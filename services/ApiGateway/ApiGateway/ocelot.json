@@ -23,6 +23,18 @@
       ]
     },
     {
+      "UpstreamPathTemplate": "/products/{name}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamPathTemplate": "/api/Product/{name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ]
+    },
+    {
       "UpstreamPathTemplate": "/products",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/Product",

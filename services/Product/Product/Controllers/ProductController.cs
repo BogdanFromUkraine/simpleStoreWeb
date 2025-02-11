@@ -77,10 +77,10 @@ namespace Product.Controllers
             return Ok("Все пройшло успішно");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> DeleteProduct(string name)
         {
-            await _productRepository.Remove(id);
+            await _productRepository.Remove(name);
             return Ok("Все пройшло успішно");
         }
     }

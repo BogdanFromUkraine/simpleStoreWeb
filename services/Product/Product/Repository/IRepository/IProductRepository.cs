@@ -8,7 +8,7 @@ namespace Product.Repository.IRepository
     {
         Task Add(ProductsDTO entity);
         IEnumerable<Products> GetAll();
-        Task Remove(int id);
+        Task Remove(string name);
         Task<Products> GetProduct(int id);
         Task Update(int id, ProductsDTO productsDTO);
     }

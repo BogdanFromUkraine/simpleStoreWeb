@@ -38,9 +38,9 @@ namespace Product.Repository
             return products;
         }
 
-        public async Task Remove(int id) 
+        public async Task Remove(string name) 
         {
-            var product = _db.Products.FirstOrDefault(p => p.Id == id);
+            var product = _db.Products.FirstOrDefault(p => p.Name == name);
             _db.Remove(product);
             _db.SaveChangesAsync();
         }

@@ -9,7 +9,7 @@ const Header = () => {
       <div className="logo">WebShop</div>
       <nav className="nav-links">
         <Link to="/addProduct" className="nav-link">
-          Add Product(для адміна)
+          Add-Delete Product(для адміна)
         </Link>
         <Link to="/" className="nav-link">
           Home
