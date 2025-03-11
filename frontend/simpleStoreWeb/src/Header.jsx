@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style/style.css";
 import "./style/header.css";
 import { Link } from "react-router-dom";
+import getUserRole from "./utils/getUserRole";
 
 const Header = () => {
+  const [isAdmin, setIsAdmin] = useState();
+  useEffect(() => {
+    async function ifUserIsAdmin() {
+      if ((await getUserRole()) == "Admin") {
+        setIsAdmin(true);
+      }
+    }
+    ifUserIsAdmin();
+  }, []);
   return (
     <header className="header">
       <div className="logo">WebShop</div>
       <nav className="nav-links">
-        <Link to="/addProduct" className="nav-link">
-          Add-Delete Product(для адміна)
-        </Link>
+        {isAdmin ? (
+          <Link to="/addProduct" className="nav-link">
+            Add-Delete Product(для адміна)
+          </Link>
+        ) : null}
+
         <Link to="/" className="nav-link">
           Home
         </Link>
