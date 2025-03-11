@@ -17,7 +17,7 @@ export default async function LoginUser(email, password) {
     );
 
     // Зберігаємо JWT токен у localStorage
-    localStorage.setItem("token", await response.data.result);
+    localStorage.setItem("token", await response.data);
     console.log(await response);
     alert("Вхід успішний!");
 

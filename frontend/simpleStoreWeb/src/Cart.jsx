@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 import style from "./style/cart.module.css";
 
-const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Product 1", price: 10, quantity: 1 },
-    { id: 2, name: "Product 2", price: 20, quantity: 2 },
-    { id: 3, name: "Product 3", price: 15, quantity: 1 },
-  ]);
-  const [userId, setUserId] = useState(null);
+import { observer } from "mobx-react-lite";
+import { useStores } from "../store/root-store-context";
+import { toJS } from "mobx";
+import getUserId from "./utils/getUserId.jsx";
+
+export const Cart = observer(() => {
+  const [cartItems, setCartItems] = useState([]);
+  const [userIdToken, setUserIdToken] = useState();
+
+  const { get_User_Cart, ItemsOfCart, remove_Product_From_Cart } = useStores();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded = parseJwt(token);
-      setUserId(decoded?.userId);
+    GetCartItem();
+
+    async function GetCartItem() {
+      await get_User_Cart(await getUserId());
+      setCartItems(toJS(ItemsOfCart));
     }
+    console.log(toJS(ItemsOfCart));
   }, []);
 
   // Функція для оновлення кількості
@@ -24,7 +29,7 @@ const Cart = () => {
         item.id === id
           ? {
               ...item,
-              quantity: Math.max(1, item.quantity + delta), // Мінімальна кількість - 1
+              stock: Math.max(1, item.stock + delta), // Мінімальна кількість - 1
             }
           : item
       )
@@ -32,13 +37,13 @@ const Cart = () => {
   };
 
   // Функція для видалення товару
-  const removeItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const removeItem = async (id) => {
+    await remove_Product_From_Cart(await getUserId(), id);
   };
 
   // Підрахунок загальної вартості
   const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + item.price * item.stock,
     0
   );
 
@@ -70,7 +75,7 @@ const Cart = () => {
                   >
                     -
                   </button>
-                  <span>{item.quantity}</span>
+                  <span>{item.stock}</span>
                   <button
                     onClick={() => updateQuantity(item.id, 1)}
                     className={style.quantity_btn}
@@ -78,7 +83,7 @@ const Cart = () => {
                     +
                   </button>
                 </td>
-                <td>${(item.price * item.quantity).toFixed(2)}</td>
+                <td>${(item.price * item.stock).toFixed(2)}</td>
                 <td>
                   <button
                     onClick={() => removeItem(item.id)}
@@ -95,6 +100,4 @@ const Cart = () => {
       <h2>Total: ${totalPrice.toFixed(2)}</h2>
     </div>
   );
-};
-
-export default Cart;
+});

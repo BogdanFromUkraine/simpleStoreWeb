@@ -5,7 +5,7 @@ import { RootStoreContext } from "../store/root-store-context";
 import DataStore from "../store/store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Home.jsx";
-import Cart from "./Cart.jsx";
+import { Cart } from "./Cart.jsx";
 import SignInPage from "./SignInPage.jsx";
 import SignUpPage from "./SignUpPage.jsx";
 import AddProduct from "./AddProduct.jsx";

@@ -44,11 +44,11 @@ namespace CartService.Repository
             var cart = await GetCartByUserId(userId);
             if (cart != null)
             {
-              //  var product = cart.Items.FirstOrDefault(p => p.Id == productId);
+                var productToRemove = cart.Items.FirstOrDefault(p => p.Id == product.Id);
                 if (product != null)
                 {
-                    cart.Items.Remove(product);
-                    _db.SaveChanges(); // Зберегти зміни в базі даних
+                    cart.Items.Remove(productToRemove);
+                   await _db.SaveChangesAsync(); // Зберегти зміни в базі даних
                 }
             }
         }

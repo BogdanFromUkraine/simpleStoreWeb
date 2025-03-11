@@ -34,7 +34,7 @@ namespace Product.Controllers
             var products = _productRepository.GetAll();
 
             //kafka producer
-            _kafkaProducer.SendMessageAsync("product-topic", "key", products);
+            await _kafkaProducer.SendMessageAsync("product-topic", "key", products);
             _kafkaProducer.Dispose();
 
             return Ok(products);
@@ -70,7 +70,7 @@ namespace Product.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, ProductsDTO product)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody]ProductsDTO product)
         {
             await _productRepository.Update(id, product);
 

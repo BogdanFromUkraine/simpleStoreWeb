@@ -25,24 +25,34 @@ namespace CartService.Kafka.Consumer
                     GroupId = "cart-group",
                     BootstrapServers = "localhost:9092",
                     AutoOffsetReset = AutoOffsetReset.Earliest,
-                    MetadataMaxAgeMs = 60000,
-                    EnableAutoCommit = true,
-                    AutoCommitIntervalMs = 5000,
-                    ReconnectBackoffMs = 1000,
-                    ReconnectBackoffMaxMs = 10000
+                    EnableAutoCommit = false,  // Вимикаємо автофіксацію офсетів
+                    SessionTimeoutMs = 60000,  // Довше чекаємо перед розривом з'єднання
+                    HeartbeatIntervalMs = 15000,  // Частіше перевіряємо з'єднання
+                    SocketTimeoutMs = 120000,  // Таймаут для запитів
+                    MaxPollIntervalMs = 300000,  // Більший інтервал між запитами, щоб Kafka не виключала клієнта
+                    MetadataMaxAgeMs = 180000,
                 };
+                // Рідше оновлюємо мета-дані, щоб зменшити навантаження
                 using var consumer = new ConsumerBuilder<Null, string>(config).Build();
                 consumer.Subscribe(topic);
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     Console.WriteLine("fsdfsd");
-                    var consumeResult = consumer.Consume(stoppingToken);
+                    var consumeResult =  consumer.Consume(stoppingToken);
+                    Console.WriteLine(consumeResult.Message.Value);
+
                     var result = JsonConvert.DeserializeObject<IEnumerable<Products>>(consumeResult.Message.Value);
 
-                    _messageStorageService.AddMessage(result);
-                    Console.WriteLine(consumeResult.Message.Value);
+                   
+
+                    await _messageStorageService.AddMessage(result);
+                    Console.WriteLine("close");
+
+                    // Фіксуємо офсет вручну
+                    consumer.Commit(consumeResult);
                 }
+               
                 consumer.Close();
             }
             catch (Exception)

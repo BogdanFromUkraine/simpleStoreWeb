@@ -12,13 +12,13 @@ namespace CartService.Kafka.Consumer
         }
 
         // Додати повідомлення до списку
-        public void AddMessage(IEnumerable<Products> message)
+        public async Task AddMessage(IEnumerable<Products> message)
         {
             _messages.Add(message);
         }
 
         // Отримати всі повідомлення
-        public IEnumerable<IEnumerable<Products>> GetAllMessages()
+        public async Task<IEnumerable<IEnumerable<Products>>> GetAllMessages()
         {
             return _messages;
         }
