@@ -4,6 +4,7 @@ import AddProductFunc from "../src/Services/Product/addProduct";
 import RemoveProduct from "../src/Services/Product/removeProduct";
 import GetUserCart from "../src/Services/Cart/getUserCart";
 import RemoveProductFromCart from "../src/Services/Cart/removeProductFromCart";
+import AddProductToCart from "../src/Services/Cart/addProductToCart";
 
 class DataStore {
   constructor() {
@@ -42,6 +43,12 @@ class DataStore {
   remove_Product_From_Cart = async (userId, productId) => {
     try {
       await RemoveProductFromCart(userId, productId);
+    } catch (error) {}
+  };
+
+  add_Product_To_Cart = async (userId, productId) => {
+    try {
+      await AddProductToCart(userId, productId);
     } catch (error) {}
   };
 }

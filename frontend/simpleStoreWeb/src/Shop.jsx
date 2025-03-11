@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ProductCard from "./ProductCard";
+import { ProductCard } from "./ProductCard";
 import { observer } from "mobx-react-lite";
 import { useStores } from "../store/root-store-context";
 

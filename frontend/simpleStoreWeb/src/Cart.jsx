@@ -20,7 +20,7 @@ export const Cart = observer(() => {
       setCartItems(toJS(ItemsOfCart));
     }
     console.log(toJS(ItemsOfCart));
-  }, []);
+  }, [cartItems]);
 
   // Функція для оновлення кількості
   const updateQuantity = (id, delta) => {
@@ -39,6 +39,7 @@ export const Cart = observer(() => {
   // Функція для видалення товару
   const removeItem = async (id) => {
     await remove_Product_From_Cart(await getUserId(), id);
+    setCartItems(ItemsOfCart);
   };
 
   // Підрахунок загальної вартості
