@@ -3,16 +3,27 @@ import "./style/style.css";
 import "./style/header.css";
 import { Link } from "react-router-dom";
 import getUserRole from "./utils/getUserRole";
+import getUserId from "./utils/getUserId";
+import logout from "./utils/logout";
 
 const Header = () => {
   const [isAdmin, setIsAdmin] = useState();
+  const [isAuth, setIsAuth] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
+
   useEffect(() => {
     async function ifUserIsAdmin() {
       if ((await getUserRole()) == "Admin") {
         setIsAdmin(true);
       }
     }
+    async function ifUserAuth() {
+      if ((await getUserId()) != null) {
+        setIsAuth(true);
+      }
+    }
     ifUserIsAdmin();
+    ifUserAuth();
   }, []);
   return (
     <header className="header">
@@ -34,12 +45,21 @@ const Header = () => {
           Cart
           <span className="cart-count">0</span>
         </Link>
-        <Link to="/signIn" className="nav-link">
-          Sign in
-        </Link>
-        <Link to="/signUp" className="nav-link">
-          Sign up
-        </Link>
+
+        {isAuth ? (
+          <Link to="#" className="nav-link">
+            <a onClick={() => setIsAuth(logout())}>Exit</a>
+          </Link>
+        ) : (
+          <>
+            <Link to="/signIn" className="nav-link">
+              Sign in
+            </Link>
+            <Link to="/signUp" className="nav-link">
+              Sign up
+            </Link>
+          </>
+        )}
       </nav>
     </header>
   );

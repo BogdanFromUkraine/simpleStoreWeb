@@ -7,7 +7,14 @@ const HeroSection = () => {
       <div className="hero-content">
         <h1>Welcome to WebShop</h1>
         <p>Discover our amazing products!</p>
-        <button>Shop Now</button>
+        <button>
+          <a
+            href="#section_shop"
+            style={{ all: "unset", display: "inline", cursor: "pointer" }}
+          >
+            Shop Now
+          </a>
+        </button>
       </div>
     </section>
   );

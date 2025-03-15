@@ -14,7 +14,7 @@ export const Shop = observer(() => {
   }, []);
 
   return (
-    <div className="shop">
+    <div className="shop" id="section_shop">
       <h1>Shop</h1>
       <div className="product-grid">
         {products && products.length > 0 ? (
