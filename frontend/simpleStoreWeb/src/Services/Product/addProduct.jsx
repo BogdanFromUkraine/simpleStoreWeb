@@ -3,6 +3,8 @@ import data from "../../dataJSON/data.json";
 
 export default async function AddProductFunc(name, description, price, stock) {
   try {
+    const jwtToken = localStorage.getItem("token");
+
     const response = await axios.post(
       data.localhost + "/products",
       {
@@ -13,13 +15,27 @@ export default async function AddProductFunc(name, description, price, stock) {
       },
       {
         headers: {
-          "Content-Type": "application/json", // Обов'язковий заголовок для JSON
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
         },
+        withCredentials: true,
       }
     );
 
     return response.data;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
+
+  //   const jwtToken = localStorage.getItem("token");
+  //   const a = axios
+  //     .get("https://localhost:7240/api/health", {
+  //       headers: {
+  //         Authorization: `Bearer ${jwtToken}`,
+  //       },
+  //     })
+  //     .then((response) => console.log(response))
+  //     .catch((error) => console.log(error));
+
+  //   return a;
 }

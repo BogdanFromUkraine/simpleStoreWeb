@@ -1,6 +1,7 @@
 ﻿using Authorization.Kafka.Producer;
 using Authorization.Models.ModelsDTO;
 using Authorization.services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Authorization.Controllers
@@ -29,6 +30,7 @@ namespace Authorization.Controllers
             return Ok(JwtToken);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Test()
         {

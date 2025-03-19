@@ -5,20 +5,19 @@
       "Access-Control-Allow-Origin": "https://localhost:5173",
       "Access-Control-Allow-Credentials": "true",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-      "Access-Control-Allow-Headers": "*"
+      "Access-Control-Allow-Headers": "true"
     }
   },
-
   "Routes": [
     {
       "UpstreamPathTemplate": "/products",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/Product",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 7240
         }
       ]
     },
@@ -26,25 +25,40 @@
       "UpstreamPathTemplate": "/products/{name}",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/Product/{name}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 7240
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToDownstream": {
+        "Authorization": "{Authorization}"
+      }
     },
     {
       "UpstreamPathTemplate": "/products",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/Product",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5001
+          "Port": 7240
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "RequireAuthentication": true,
+        "AllowedScopes": []
+      },
+      "DownstreamHeaderTransform": {
+        "Authorization": "Authorization"
+      }
     },
     {
       "UpstreamPathTemplate": "/products/{id}",
@@ -56,7 +70,14 @@
           "Host": "localhost",
           "Port": 5001
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToDownstream": {
+        "Authorization": "{Authorization}"
+      }
     },
     {
       "UpstreamPathTemplate": "/auth/login",
@@ -75,11 +96,11 @@
       "UpstreamPathTemplate": "/auth/register",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/User/Register",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5025
+          "Port": 7285
         }
       ]
     },
@@ -87,38 +108,58 @@
       "UpstreamPathTemplate": "/cart/get/{userId}",
       "UpstreamHttpMethod": [ "Get" ],
       "DownstreamPathTemplate": "/api/Cart/{userId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5039
+          "Port": 7236
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToDownstream": {
+        "Authorization": "{Authorization}"
+      }
     },
     {
       "UpstreamPathTemplate": "/cart/post/{userId}/items/{productId}",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamPathTemplate": "/api/Cart/{userId}/items/{productId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5039
+          "Port": 7236
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToDownstream": {
+        "Authorization": "{Authorization}"
+      }
     },
     {
       "UpstreamPathTemplate": "/cart/delete/{userId}/items/{productId}",
       "UpstreamHttpMethod": [ "Delete" ],
       "DownstreamPathTemplate": "/api/Cart/{userId}/items/{productId}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5039
+          "Port": 7236
         }
-      ]
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToDownstream": {
+        "Authorization": "{Authorization}"
+      }
     }
-
   ]
 }

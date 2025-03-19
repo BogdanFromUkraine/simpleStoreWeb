@@ -1,10 +1,13 @@
 
 using Authorization.Kafka.Producer;
 using CartService.DataAccess;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Product.Kafka.Consumer;
 using Product.Repository;
 using Product.Repository.IRepository;
+using System.Text;
 
 
 namespace Product
@@ -33,12 +36,14 @@ namespace Product
             // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowOcelot",
+                options.AddPolicy("AllowAll",
                     policy =>
                     {
-                        policy.AllowAnyOrigin()
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
+                        policy.WithOrigins("https://localhost:5173") // Дозволяє запити з React
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowCredentials()
+                                .SetIsOriginAllowed(_ => true);
                     });
             });
 
@@ -47,8 +52,27 @@ namespace Product
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            //код який перевіряє JWT
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c0mpL3xS3cur3K3y@98765432109876543210")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true
+                };
+            });
+
+            builder.Services.AddAuthorization();
+
             var app = builder.Build();
 
+           
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -58,13 +82,16 @@ namespace Product
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+          
             // Використовуємо CORS
-            app.UseCors("AllowOcelot");
+            app.UseCors("AllowAll");
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 
             app.Run();
         }
-    }
+    }   
 }

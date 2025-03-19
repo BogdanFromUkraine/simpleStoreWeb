@@ -32,7 +32,7 @@ namespace Authorization.services
 
             //алгоритм за яким буде кодуватися токен
             var signingCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTOptions:Key"])),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("c0mpL3xS3cur3K3y@98765432109876543210")),
                 SecurityAlgorithms.HmacSha256);
             //створення jwt токену
             var token = new JwtSecurityToken(

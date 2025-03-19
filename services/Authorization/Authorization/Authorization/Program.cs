@@ -44,7 +44,7 @@ namespace Authorization
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes("djvoijwefijivdcwfipsdfjjsin3nofsdjakfljadjiojsewrdftgyhujigytfrderdftgyhujikojihuygtfrdeftgyhujk32lkmjnhugfdrefghjkjhgytfrd"))
+                            Encoding.UTF8.GetBytes("c0mpL3xS3cur3K3y@98765432109876543210"))
                     };
                     options.Events = new JwtBearerEvents
                     {
@@ -61,7 +61,8 @@ namespace Authorization
                             return Task.CompletedTask;
                         }
                     };
-                });
+                                    });
+
             builder.Services.AddAuthorization();
             builder.Services.AddAuthorization(options =>
             {
@@ -108,9 +109,11 @@ namespace Authorization
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
-            app.UseAuthentication();
+           
             // Використовуємо CORS
             app.UseCors("AllowOcelot");
 
