@@ -1,8 +1,11 @@
 import { Children, createContext, useContext } from "react";
-import store from "./store";
 import DataStore from "./store";
+import NotificationStore from "./notificationStore";
 
-export const RootStoreContext = createContext<DataStore | null>(null);
+export const RootStoreContext = createContext({
+  dataStore: new DataStore(),
+  notificationStore: new NotificationStore(),
+});
 
 export const useStores = () => {
   const context = useContext(RootStoreContext);

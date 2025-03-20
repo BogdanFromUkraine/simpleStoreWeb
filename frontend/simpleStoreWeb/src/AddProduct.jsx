@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./style/addProduct.module.css";
-import { useStores } from "../store/root-store-context";
+import { useStores } from "../store/root-store-context.ts";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ export default function AddProduct() {
   const [error, setError] = useState(null);
   const [isAdding, setIsAdding] = useState(true); // Додаємо стан для перемикання режиму
 
-  const { add_Product, remove_Product } = useStores();
+  const { dataStore, add_Product, remove_Product } = useStores();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,7 +26,7 @@ export default function AddProduct() {
     setError(null);
 
     try {
-      await add_Product(
+      await dataStore.add_Product(
         formData.name,
         formData.description,
         formData.price,
@@ -52,7 +52,7 @@ export default function AddProduct() {
 
     try {
       //видалення product
-      await remove_Product(formData.name);
+      await dataStore.remove_Product(formData.name);
 
       alert("Продукт успішно видалено!");
       setFormData({ name: "", price: "", description: "", stock: "" });

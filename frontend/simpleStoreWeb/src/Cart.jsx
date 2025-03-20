@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "./style/cart.module.css";
 
 import { observer } from "mobx-react-lite";
-import { useStores } from "../store/root-store-context";
+import { useStores } from "../store/root-store-context.ts";
 import { toJS } from "mobx";
 import getUserId from "./utils/getUserId.jsx";
 
@@ -10,16 +10,16 @@ export const Cart = observer(() => {
   const [cartItems, setCartItems] = useState([]);
   const [userIdToken, setUserIdToken] = useState();
 
-  const { get_User_Cart, ItemsOfCart, remove_Product_From_Cart } = useStores();
+  const { dataStore } = useStores();
 
   useEffect(() => {
     GetCartItem();
 
     async function GetCartItem() {
-      await get_User_Cart(await getUserId());
-      setCartItems(toJS(ItemsOfCart));
+      await dataStore.get_User_Cart(await getUserId());
+      setCartItems(toJS(dataStore.ItemsOfCart));
     }
-    console.log(toJS(ItemsOfCart));
+    console.log(toJS(dataStore.ItemsOfCart));
   }, [cartItems]);
 
   // Функція для оновлення кількості
@@ -38,7 +38,7 @@ export const Cart = observer(() => {
 
   // Функція для видалення товару
   const removeItem = async (id) => {
-    await remove_Product_From_Cart(await getUserId(), id);
+    await dataStore.remove_Product_From_Cart(await getUserId(), id);
     setCartItems(ItemsOfCart);
   };
 

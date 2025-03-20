@@ -5,6 +5,8 @@ import RemoveProduct from "../src/Services/Product/removeProduct";
 import GetUserCart from "../src/Services/Cart/getUserCart";
 import RemoveProductFromCart from "../src/Services/Cart/removeProductFromCart";
 import AddProductToCart from "../src/Services/Cart/addProductToCart";
+import LoginUser from "../src/Services/Authorization/loginUser";
+import RegisterUser from "../src/Services/Authorization/registerUser";
 
 class DataStore {
   constructor() {
@@ -49,6 +51,18 @@ class DataStore {
   add_Product_To_Cart = async (userId, productId) => {
     try {
       await AddProductToCart(userId, productId);
+    } catch (error) {}
+  };
+
+  sign_in = async (email, password) => {
+    try {
+      await LoginUser(email, password);
+    } catch (error) {}
+  };
+
+  sign_up = async (userName, email, password) => {
+    try {
+      await RegisterUser(userName, email, password);
     } catch (error) {}
   };
 }

@@ -1,13 +1,13 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { useStores } from "../store/root-store-context";
+import { useStores } from "../store/root-store-context.ts";
 import getUserId from "./utils/getUserId.jsx";
 
 export const ProductCard = observer(({ product }) => {
-  const { add_Product_To_Cart } = useStores();
+  const { dataStore } = useStores();
 
   async function handleButtonClick(id) {
-    await add_Product_To_Cart(await getUserId(), id);
+    await dataStore.add_Product_To_Cart(await getUserId(), id);
   }
 
   return (

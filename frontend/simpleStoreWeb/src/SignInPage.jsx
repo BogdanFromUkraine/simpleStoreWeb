@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./style/stylesToAuthorization.css";
 import LoginUser from "./Services/Authorization/loginUser";
+import { useStores } from "../store/root-store-context";
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const { dataStore } = useStores();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,7 +19,7 @@ const SignInPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Тут буде логіка для відправки даних на сервер для входу
-    var test = await LoginUser(formData.email, formData.password);
+    var test = await dataStore.sign_in(formData.email, formData.password);
     console.log("Form Data:", formData);
   };
 

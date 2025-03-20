@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import { RootStoreContext } from "../store/root-store-context";
 import DataStore from "../store/store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./Home.jsx";
@@ -9,6 +8,8 @@ import { Cart } from "./Cart.jsx";
 import SignInPage from "./SignInPage.jsx";
 import SignUpPage from "./SignUpPage.jsx";
 import AddProduct from "./AddProduct.jsx";
+import NotificationStore from "../store/notificationStore.js";
+import { RootStoreContext } from "../store/root-store-context.ts";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +24,13 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+// Створюємо екземпляри store
+const dataStore = new DataStore();
+const notificationStore = new NotificationStore();
+
 createRoot(document.getElementById("root")).render(
-  <RootStoreContext.Provider value={new DataStore()}>
+  <RootStoreContext.Provider value={{ dataStore, notificationStore }}>
     <RouterProvider router={router}>
       <StrictMode>
         <App />
