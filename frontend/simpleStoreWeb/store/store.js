@@ -15,6 +15,7 @@ class DataStore {
 
   products = [];
   ItemsOfCart = [];
+  response = Boolean;
 
   get_User_Cart = async (userId) => {
     try {
@@ -56,13 +57,15 @@ class DataStore {
 
   sign_in = async (email, password) => {
     try {
-      await LoginUser(email, password);
+      const res = await LoginUser(email, password);
+      this.response = res;
     } catch (error) {}
   };
 
   sign_up = async (userName, email, password) => {
     try {
-      await RegisterUser(userName, email, password);
+      const res = await RegisterUser(userName, email, password);
+      this.response = res;
     } catch (error) {}
   };
 }

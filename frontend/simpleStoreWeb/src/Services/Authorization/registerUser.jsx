@@ -17,8 +17,8 @@ export default async function RegisterUser(userName, email, password) {
       }
     );
 
-    return null;
+    return true;
   } catch (error) {
-    console.log(error.message);
+    return false;
   }
 }

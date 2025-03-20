@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import "./style/stylesToAuthorization.css";
 import LoginUser from "./Services/Authorization/loginUser";
 import { useStores } from "../store/root-store-context";
+import { observer } from "mobx-react-lite";
 
-const SignInPage = () => {
+export const SignInPage = observer(() => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const { dataStore } = useStores();
+  const { dataStore, notificationStore } = useStores();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +21,15 @@ const SignInPage = () => {
     e.preventDefault();
     // Тут буде логіка для відправки даних на сервер для входу
     var test = await dataStore.sign_in(formData.email, formData.password);
-    console.log("Form Data:", formData);
+    //логіка toastr
+    if (dataStore.response === true) {
+      notificationStore.notify("logged in successfully!", "success");
+      setTimeout(() => {
+        window.location.href = "https://localhost:5173/"; // Перехід після 2 секунд
+      }, 5000); // 2000 мс = 2 секунди
+    } else {
+      notificationStore.notify("something wrong!", "error");
+    }
   };
 
   return (
@@ -55,6 +64,4 @@ const SignInPage = () => {
       </div>
     </div>
   );
-};
-
-export default SignInPage;
+});

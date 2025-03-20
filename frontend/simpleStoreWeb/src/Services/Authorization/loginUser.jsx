@@ -19,10 +19,11 @@ export default async function LoginUser(email, password) {
     // Зберігаємо JWT токен у localStorage
     localStorage.setItem("token", await response.data);
     console.log(await response);
-    alert("Вхід успішний!");
-
-    window.location.href = "https://localhost:5173/"; // Перенаправлення на захищену сторінку
-    return null;
+    if (response.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error.message);
   }

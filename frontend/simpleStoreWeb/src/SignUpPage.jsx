@@ -10,7 +10,7 @@ const SignUpPage = () => {
     password: "",
   });
 
-  const { dataStore } = useStores();
+  const { dataStore, notificationStore } = useStores();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,6 +25,16 @@ const SignUpPage = () => {
       formData.email,
       formData.password
     );
+
+    //логіка toastr
+    if (dataStore.response === true) {
+      notificationStore.notify("successfully registered!", "success");
+      setTimeout(() => {
+        window.location.href = "https://localhost:5173/"; // Перехід після 2 секунд
+      }, 5000); // 2000 мс = 2 секунди
+    } else {
+      notificationStore.notify("something wrong!", "error");
+    }
 
     console.log("Form Data:", formData);
   };
