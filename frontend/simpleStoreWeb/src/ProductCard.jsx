@@ -4,10 +4,16 @@ import { useStores } from "../store/root-store-context.ts";
 import getUserId from "./utils/getUserId.jsx";
 
 export const ProductCard = observer(({ product }) => {
-  const { dataStore } = useStores();
+  const { dataStore, notificationStore } = useStores();
 
   async function handleButtonClick(id) {
     await dataStore.add_Product_To_Cart(await getUserId(), id);
+    //логіка toastr
+    if (dataStore.response == true) {
+      notificationStore.notify("successfully added!", "success");
+    } else {
+      notificationStore.notify("something wrong!", "error");
+    }
   }
 
   return (

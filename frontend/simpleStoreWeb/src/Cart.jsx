@@ -10,7 +10,7 @@ export const Cart = observer(() => {
   const [cartItems, setCartItems] = useState([]);
   const [userIdToken, setUserIdToken] = useState();
 
-  const { dataStore } = useStores();
+  const { dataStore, notificationStore } = useStores();
 
   useEffect(() => {
     GetCartItem();
@@ -39,11 +39,18 @@ export const Cart = observer(() => {
   // Функція для видалення товару
   const removeItem = async (id) => {
     await dataStore.remove_Product_From_Cart(await getUserId(), id);
+    //логіка toastr
+    if (dataStore.response == true) {
+      notificationStore.notify("successfully deleted!", "success");
+    } else {
+      notificationStore.notify("something wrong!", "error");
+    }
+
     setCartItems(ItemsOfCart);
   };
 
   // Підрахунок загальної вартості
-  const totalPrice = cartItems.reduce(
+  const totalPrice = cartItems?.reduce(
     (total, item) => total + item.price * item.stock,
     0
   );
@@ -51,7 +58,7 @@ export const Cart = observer(() => {
   return (
     <div className={style.cart_container}>
       <h1>Shopping Cart</h1>
-      {cartItems.length === 0 ? (
+      {cartItems == undefined || cartItems.length == 0 ? (
         <p>Your cart is empty!</p>
       ) : (
         <table className={style.cart_table}>
@@ -98,7 +105,7 @@ export const Cart = observer(() => {
           </tbody>
         </table>
       )}
-      <h2>Total: ${totalPrice.toFixed(2)}</h2>
+      <h2>Total: ${Number(totalPrice || 0).toFixed(2)}</h2>
     </div>
   );
 });

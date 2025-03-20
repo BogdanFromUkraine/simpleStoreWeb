@@ -114,14 +114,7 @@
           "Host": "localhost",
           "Port": 7236
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToDownstream": {
-        "Authorization": "{Authorization}"
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/cart/post/{userId}/items/{productId}",
@@ -133,14 +126,7 @@
           "Host": "localhost",
           "Port": 7236
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToDownstream": {
-        "Authorization": "{Authorization}"
-      }
+      ]
     },
     {
       "UpstreamPathTemplate": "/cart/delete/{userId}/items/{productId}",
@@ -152,14 +138,7 @@
           "Host": "localhost",
           "Port": 7236
         }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer",
-        "AllowedScopes": []
-      },
-      "AddHeadersToDownstream": {
-        "Authorization": "{Authorization}"
-      }
+      ]
     }
   ]
 }

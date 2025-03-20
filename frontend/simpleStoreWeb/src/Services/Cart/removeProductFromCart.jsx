@@ -11,8 +11,11 @@ export default async function RemoveProductFromCart(userId, productId) {
         },
       }
     );
-
-    return response.data;
+    if (response.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error.message);
   }
