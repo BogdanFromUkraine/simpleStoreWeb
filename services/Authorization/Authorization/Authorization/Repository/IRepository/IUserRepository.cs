@@ -1,7 +1,6 @@
-﻿using Authorization.Models;
-using Notes_project.Models.ModelsDTO;
-using System.Linq.Expressions;
+﻿using Notes_project.Models.ModelsDTO;
 using ProductService.Models;
+using System.Linq.Expressions;
 
 namespace Authorization.Repository.IRepository
 {
@@ -14,7 +13,9 @@ namespace Authorization.Repository.IRepository
         User Get(Expression<Func<User, bool>> filter, string? includeProperties = null);
 
         public Task<HashSet<Authorization.Enum.Permission>> GetUserPermission(Guid userId);
+
         public Task AddTest(User user);
+
         public Task<UserDTOTest> GetUser(string email);
     }
 }

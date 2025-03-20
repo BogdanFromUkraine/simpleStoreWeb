@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Product.Models
+﻿namespace Product.Models
 {
     public class ProductsDTO
     {

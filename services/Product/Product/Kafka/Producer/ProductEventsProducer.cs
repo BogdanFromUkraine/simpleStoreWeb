@@ -1,12 +1,9 @@
 ﻿namespace Authorization.Kafka.Producer
 {
     using Confluent.Kafka;
-    using System.Text.Json;
-    using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
-    using static Confluent.Kafka.ConfigPropertyNames;
     using Newtonsoft.Json;
     using ProductService.Models;
+    using System.Threading.Tasks;
 
     public class ProductEventProducer : IKafkaProducer
     {
@@ -17,7 +14,7 @@
             var config = new ProducerConfig
             {
                 BootstrapServers = "localhost:9092",
-                 Acks = Acks.All,  // Очікуємо підтвердження від всіх брокерів
+                Acks = Acks.All,  // Очікуємо підтвердження від всіх брокерів
                 MessageTimeoutMs = 60000,  // Довше чекаємо підтвердження від брокера
                 RetryBackoffMs = 500,  // Час очікування між повторними спробами
                 EnableIdempotence = true,  // Включаємо ідємпотентність (повторні відправки не дублюються)
@@ -35,19 +32,17 @@
                 {
                     Value = JsonConvert.SerializeObject(message)
                 });
-
             }
             catch (ProduceException<string, string> ex)
             {
                 Console.WriteLine($"Failed to deliver message: {ex.Error.Reason}");
             }
-          
         }
+
         public void Dispose()
         {
             _producer.Flush(TimeSpan.FromSeconds(10));
             _producer.Dispose();
         }
     }
-
 }

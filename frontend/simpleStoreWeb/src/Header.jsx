@@ -9,7 +9,6 @@ import logout from "./utils/logout";
 const Header = () => {
   const [isAdmin, setIsAdmin] = useState();
   const [isAuth, setIsAuth] = useState(false);
-  const [isLogout, setIsLogout] = useState(false);
 
   useEffect(() => {
     async function ifUserIsAdmin() {
@@ -38,12 +37,8 @@ const Header = () => {
         <Link to="/" className="nav-link">
           Home
         </Link>
-        <a to="/shop" className="nav-link">
-          Shop
-        </a>
         <Link to="/cart" className="nav-link cart-link">
           Cart
-          <span className="cart-count">0</span>
         </Link>
 
         {isAuth ? (

@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProductService.Models;
-using Product.Repository.IRepository;
+﻿using Authorization.Kafka.Producer;
 using CartService.DataAccess;
-using Product.Models;
-using Product.Kafka.Consumer;
-using Authorization.Kafka.Producer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Product.Kafka.Consumer;
+using Product.Models;
+using Product.Repository.IRepository;
+using ProductService.Models;
 
 namespace Product.Controllers
 {
@@ -18,7 +16,6 @@ namespace Product.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IMessageStorageService _messageStorageService;
         private readonly IKafkaProducer _kafkaProducer;
-
 
         public ProductsController(ApplicationDbContext context,
             IProductRepository productRepository,
@@ -43,7 +40,7 @@ namespace Product.Controllers
         }
 
         [HttpGet("Test")]
-        public IActionResult Test() 
+        public IActionResult Test()
         {
             var message = _messageStorageService.GetAllMessages();
             return Ok(message);
@@ -63,25 +60,25 @@ namespace Product.Controllers
         }
 
         //методи нижче будуть доступні тільки адміну
-        
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> CreateProduct([FromBody]ProductsDTO product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductsDTO product)
         {
             await _productRepository.Add(product);
 
             return Ok("все пройшло успішно");
         }
-        
+
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody]ProductsDTO product)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductsDTO product)
         {
             await _productRepository.Update(id, product);
 
             return Ok("Все пройшло успішно");
         }
-        
+
         [HttpDelete("{name}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(string name)
@@ -90,5 +87,4 @@ namespace Product.Controllers
             return Ok("Все пройшло успішно");
         }
     }
-
 }

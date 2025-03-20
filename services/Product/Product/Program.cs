@@ -1,4 +1,3 @@
-
 using Authorization.Kafka.Producer;
 using CartService.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,7 +7,6 @@ using Product.Kafka.Consumer;
 using Product.Repository;
 using Product.Repository.IRepository;
 using System.Text;
-
 
 namespace Product
 {
@@ -72,7 +70,6 @@ namespace Product
 
             var app = builder.Build();
 
-           
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -82,7 +79,6 @@ namespace Product
 
             app.UseHttpsRedirection();
 
-          
             // Використовуємо CORS
             app.UseCors("AllowAll");
 
@@ -93,5 +89,5 @@ namespace Product
 
             app.Run();
         }
-    }   
+    }
 }

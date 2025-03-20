@@ -1,5 +1,4 @@
-﻿using ProductService.Models;
-using Notes_project.Models.ModelsDTO;
+﻿using Notes_project.Models.ModelsDTO;
 
 namespace Authorization.services
 {

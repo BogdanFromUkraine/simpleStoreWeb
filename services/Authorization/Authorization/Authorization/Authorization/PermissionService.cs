@@ -1,6 +1,4 @@
-﻿
-
-using Authorization.Repository.IRepository;
+﻿using Authorization.Repository.IRepository;
 
 namespace Authorization.Services
 {

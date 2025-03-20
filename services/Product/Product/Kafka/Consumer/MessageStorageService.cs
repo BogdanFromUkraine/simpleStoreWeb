@@ -1,6 +1,4 @@
-﻿using ProductService.Models;
-
-namespace Product.Kafka.Consumer
+﻿namespace Product.Kafka.Consumer
 {
     public class MessageStorageService : IMessageStorageService
     {
@@ -29,5 +27,4 @@ namespace Product.Kafka.Consumer
             _messages.Clear();
         }
     }
-
 }

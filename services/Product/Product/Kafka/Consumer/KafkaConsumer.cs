@@ -1,7 +1,4 @@
 ﻿using Confluent.Kafka;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
-using ProductService.Models;
 
 namespace Product.Kafka.Consumer
 {
@@ -13,9 +10,10 @@ namespace Product.Kafka.Consumer
         {
             _messageStorageService = messageStorageService;
         }
+
         //protected override Task ExecuteAsync(CancellationToken stoppingToken)
         //{
-        //    return Task.Run(() => 
+        //    return Task.Run(() =>
         //    {
         //        _ = ConsumeAsync("my-topic", stoppingToken);
         //    }, stoppingToken);
@@ -25,7 +23,6 @@ namespace Product.Kafka.Consumer
         {
             try
             {
-
                 var config = new ConsumerConfig
                 {
                     GroupId = "product-group",
@@ -37,7 +34,6 @@ namespace Product.Kafka.Consumer
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-
                     var consumeResult = consumer.Consume(stoppingToken);
                     //var result = JsonConvert.DeserializeObject<User>(consumeResult.Message.Value);
 
@@ -51,8 +47,6 @@ namespace Product.Kafka.Consumer
                 //
                 throw;
             }
-
         }
-
     }
 }
