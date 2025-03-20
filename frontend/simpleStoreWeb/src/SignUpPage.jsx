@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./style/stylesToAuthorization.css";
-import RegisterUser from "./Services/Authorization/registerUser";
 import { useStores } from "../store/root-store-context";
 
 const SignUpPage = () => {

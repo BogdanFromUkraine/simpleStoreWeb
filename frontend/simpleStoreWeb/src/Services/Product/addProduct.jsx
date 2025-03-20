@@ -22,7 +22,11 @@ export default async function AddProductFunc(name, description, price, stock) {
       }
     );
 
-    return response.data;
+    if (response.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (error) {
     console.log(error);
   }

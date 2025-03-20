@@ -31,27 +31,31 @@ class DataStore {
 
   add_Product = async (name, description, price, stock) => {
     try {
-      await AddProductFunc(name, description, price, stock);
+      const res = await AddProductFunc(name, description, price, stock);
       await this.get_Products();
+      this.response = res;
     } catch (error) {}
   };
 
   remove_Product = async (name) => {
     try {
-      await RemoveProduct(name);
+      const res = await RemoveProduct(name);
       await this.get_Products();
+      this.response = res;
     } catch (error) {}
   };
 
   remove_Product_From_Cart = async (userId, productId) => {
     try {
-      await RemoveProductFromCart(userId, productId);
+      const res = await RemoveProductFromCart(userId, productId);
+      this.response = res;
     } catch (error) {}
   };
 
   add_Product_To_Cart = async (userId, productId) => {
     try {
-      await AddProductToCart(userId, productId);
+      const res = await AddProductToCart(userId, productId);
+      this.response = res;
     } catch (error) {}
   };
 

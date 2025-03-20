@@ -13,7 +13,7 @@ export default function AddProduct() {
   const [error, setError] = useState(null);
   const [isAdding, setIsAdding] = useState(true); // Додаємо стан для перемикання режиму
 
-  const { dataStore, add_Product, remove_Product } = useStores();
+  const { dataStore, notificationStore } = useStores();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,9 +32,12 @@ export default function AddProduct() {
         formData.price,
         formData.stock
       );
-
-      if (!response.ok) throw new Error("Помилка додавання продукту");
-      alert("Продукт успішно додано!");
+      //логіка toastr
+      if (dataStore.response == true) {
+        notificationStore.notify("successfully added!", "success");
+      } else {
+        notificationStore.notify("something wrong!", "error");
+      }
       setFormData({ name: "", price: "", description: "" });
     } catch (error) {
       setError(error.message);
@@ -54,7 +57,12 @@ export default function AddProduct() {
       //видалення product
       await dataStore.remove_Product(formData.name);
 
-      alert("Продукт успішно видалено!");
+      //логіка toastr
+      if (dataStore.response == true) {
+        notificationStore.notify("successfully deleted!", "success");
+      } else {
+        notificationStore.notify("something wrong!", "error");
+      }
       setFormData({ name: "", price: "", description: "", stock: "" });
     } catch (error) {
       setError(error.message);
