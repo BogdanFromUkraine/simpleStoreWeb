@@ -29,5 +29,4 @@ namespace CartService.Kafka.Consumer
             _messages.Clear();
         }
     }
-
 }

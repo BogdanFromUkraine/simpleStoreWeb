@@ -28,8 +28,6 @@ namespace ApiGateway
                     });
             });
 
-
-
             builder.Services.AddAuthentication("Bearer")
      .AddJwtBearer("Bearer", options =>
      {
@@ -55,7 +53,6 @@ namespace ApiGateway
                  return Task.CompletedTask;
              }
          };
-
      });
 
             builder.Services.AddAuthorization();
@@ -63,14 +60,9 @@ namespace ApiGateway
             // Додаємо Ocelot як службу
             builder.Services.AddOcelot();
 
-         
-
             var app = builder.Build();
 
             app.MapGet("/", () => Console.WriteLine("Hello World!"));
-            
-
-          
 
             //для обробки body
             app.Use(async (context, next) =>
@@ -83,12 +75,11 @@ namespace ApiGateway
 
             // Використовуємо CORS
             app.UseCors("AllowFrontend");
-            app.UseAuthentication();  
+            app.UseAuthentication();
             app.UseAuthorization();
 
-
             // Використовуємо Ocelot Middleware для обробки запитів
-             app.UseOcelot().Wait();
+            app.UseOcelot().Wait();
 
             app.Run();
         }

@@ -1,5 +1,4 @@
 ﻿using Confluent.Kafka;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using ProductService.Models;
 
@@ -14,12 +13,10 @@ namespace CartService.Kafka.Consumer
             _messageStorageService = messageStorageService;
         }
 
-
         public async Task ConsumeAsync(string topic, CancellationToken stoppingToken)
         {
             try
             {
-
                 var config = new ConsumerConfig
                 {
                     GroupId = "cart-group",
@@ -39,12 +36,10 @@ namespace CartService.Kafka.Consumer
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     Console.WriteLine("fsdfsd");
-                    var consumeResult =  consumer.Consume(stoppingToken);
+                    var consumeResult = consumer.Consume(stoppingToken);
                     Console.WriteLine(consumeResult.Message.Value);
 
                     var result = JsonConvert.DeserializeObject<IEnumerable<Products>>(consumeResult.Message.Value);
-
-                   
 
                     await _messageStorageService.AddMessage(result);
                     Console.WriteLine("close");
@@ -52,7 +47,7 @@ namespace CartService.Kafka.Consumer
                     // Фіксуємо офсет вручну
                     consumer.Commit(consumeResult);
                 }
-               
+
                 consumer.Close();
             }
             catch (Exception)
@@ -60,8 +55,6 @@ namespace CartService.Kafka.Consumer
                 //
                 throw;
             }
-
         }
-
     }
 }

@@ -9,6 +9,7 @@ namespace CartService.Repository
     public class CartRepository : ICartRepository
     {
         private ApplicationDbContext _db;
+
         public CartRepository(ApplicationDbContext db)
         {
             _db = db;
@@ -23,20 +24,16 @@ namespace CartService.Repository
             return cart;
         }
 
-        
-
         public async Task AddToCart(Guid userId, Products product)
         {
             var cart = await GetCartByUserId(userId);
-           
+
             //шукаю product, який треба буде добавити до кошику
             //var productToCart = _db.Products.FirstOrDefault(p => p.Id == productId);
-
 
             // Додати продукт до кошика
             cart.Items.Add(product);
             await _db.SaveChangesAsync(); // Зберегти зміни в базі даних
-
         }
 
         public async Task RemoveFromCart(Guid userId, Products product)
@@ -48,7 +45,7 @@ namespace CartService.Repository
                 if (product != null)
                 {
                     cart.Items.Remove(productToRemove);
-                   await _db.SaveChangesAsync(); // Зберегти зміни в базі даних
+                    await _db.SaveChangesAsync(); // Зберегти зміни в базі даних
                 }
             }
         }

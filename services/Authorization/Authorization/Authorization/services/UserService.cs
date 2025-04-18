@@ -1,6 +1,4 @@
 ﻿using Authorization.Repository.IRepository;
-using System.Security.Claims;
-using System.Text;
 using ProductService.Models;
 
 namespace Authorization.services
@@ -11,6 +9,7 @@ namespace Authorization.services
         private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
         private readonly IHttpContextAccessor _contextAccessor;
+
         public UserService(IPasswordHasher passwordHasher,
             IUserRepository userRepository,
             IJwtProvider jwtProvider,
@@ -21,6 +20,7 @@ namespace Authorization.services
             _jwtProvider = jwtProvider;
             _contextAccessor = httpContextAccessor;
         }
+
         //метод, який відповідає за регістрацію користувача
         public async Task Register(string userName, string email, string password)
         {
@@ -31,10 +31,11 @@ namespace Authorization.services
             await _userRepository.AddTest(user);
             await _userRepository.Save();
         }
+
         public async Task<string> Login(string email, string password)
         {
             //провірити email
-            
+
             var user = await _userRepository.GetUser(email);
             //перевірити password
             var result = _passwordHasher.Verify(password, user.PasswordHash);

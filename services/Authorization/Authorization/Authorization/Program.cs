@@ -1,16 +1,14 @@
-﻿
-
+﻿using Authorization.Kafka.Producer;
 using Authorization.Repository;
 using Authorization.Repository.IRepository;
 using Authorization.services;
+using Authorization.Services;
+using CartService.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Authorization.Services;
 using System.Text;
-using CartService.DataAccess;
-using Authorization.Kafka.Producer;
 
 namespace Authorization
 {
@@ -29,7 +27,6 @@ namespace Authorization
 
             //створив Configuration, щоб получити secret key
             var configuration = builder.Configuration;
-
 
             //створюю конфігурацію, щоб пізніше переадти через DI
             builder.Services.Configure<AuthorizationOptions>(configuration.GetSection(nameof(AuthorizationOptions)));
@@ -61,7 +58,7 @@ namespace Authorization
                             return Task.CompletedTask;
                         }
                     };
-                                    });
+                });
 
             builder.Services.AddAuthorization();
             builder.Services.AddAuthorization(options =>
@@ -113,7 +110,6 @@ namespace Authorization
 
             app.UseAuthorization();
 
-           
             // Використовуємо CORS
             app.UseCors("AllowOcelot");
 

@@ -1,5 +1,4 @@
-﻿using Authorization.Models;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using Notes_project.Models.ModelsDTO;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,10 +9,12 @@ namespace Authorization.services
     public class JwtProvider : IJwtProvider
     {
         private readonly IConfiguration _config;
+
         public JwtProvider(IConfiguration config)
         {
             _config = config;
         }
+
         public string GenerateToken(UserDTOTest user)
         {
             //створюю додаткову інформацію, щоб це скомпанувати це у JWT токен і потім витягнути додаткову інфу

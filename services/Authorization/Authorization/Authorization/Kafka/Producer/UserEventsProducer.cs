@@ -1,12 +1,8 @@
 ﻿namespace Authorization.Kafka.Producer
 {
     using Confluent.Kafka;
-    using System.Text.Json;
-    using System.Text.RegularExpressions;
-    using System.Threading.Tasks;
-    using static Confluent.Kafka.ConfigPropertyNames;
     using Newtonsoft.Json;
-    using ProductService.Models;
+    using System.Threading.Tasks;
 
     public class UserEventProducer : IKafkaProducer
     {
@@ -30,19 +26,17 @@
                 {
                     Value = JsonConvert.SerializeObject(message)
                 });
-
             }
             catch (ProduceException<string, string> ex)
             {
                 Console.WriteLine($"Failed to deliver message: {ex.Error.Reason}");
             }
-          
         }
+
         public void Dispose()
         {
             _producer.Flush(TimeSpan.FromSeconds(10));
             _producer.Dispose();
         }
     }
-
 }

@@ -1,10 +1,8 @@
-
 using CartService.DataAccess;
-using Microsoft.EntityFrameworkCore;
-using CartService.DataAccess;
-using CartService.Repository.IRepository;
-using CartService.Repository;
 using CartService.Kafka.Consumer;
+using CartService.Repository;
+using CartService.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace CartService
 {

@@ -2,7 +2,6 @@
 using CartService.Models;
 using CartService.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
-using ProductService.Models;
 
 namespace CartService.Controllers
 {
@@ -13,6 +12,7 @@ namespace CartService.Controllers
         private readonly ICartRepository _cartRepository;
         private readonly IMessageStorageService _messageStorageService;
         private readonly IKafkaConsumer _kafkaConsumer;
+
         public CartController(ICartRepository cartRepository,
             IMessageStorageService messageStorageService,
             IKafkaConsumer kafkaConsumer)
@@ -20,8 +20,8 @@ namespace CartService.Controllers
             _cartRepository = cartRepository;
             _messageStorageService = messageStorageService;
             _kafkaConsumer = kafkaConsumer;
-
         }
+
         [HttpGet("{userId}")]
         public async Task<ActionResult<Cart>> GetCart(string userId)
         {
@@ -38,11 +38,11 @@ namespace CartService.Controllers
         [HttpPost("{userId}/items/{productId}")]
         public async Task<ActionResult<Cart>> AddToCart(Guid userId, int productId)
         {
-            var productsFromKafka =  await _messageStorageService.GetAllMessages();
+            var productsFromKafka = await _messageStorageService.GetAllMessages();
             //логіка знаходження product, тому що карт репосіторі, повинен працювати тільки з cart і не мати доступу до інших
             var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
                               .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
-            
+
             await _cartRepository.AddToCart(userId, product);
             return Ok(product);
         }

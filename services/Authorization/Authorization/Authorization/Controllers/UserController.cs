@@ -12,6 +12,7 @@ namespace Authorization.Controllers
     {
         private readonly IUserService _userService;
         private readonly IKafkaProducer _kafkaProducer;
+
         public UserController(IUserService userService, IKafkaProducer kafkaProducer)
         {
             _userService = userService;
@@ -34,7 +35,6 @@ namespace Authorization.Controllers
         [HttpGet]
         public IActionResult Test()
         {
-           
             return Ok("fdf");
         }
 

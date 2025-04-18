@@ -1,11 +1,10 @@
-﻿using ProductService.Models;
-using Authorization.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
-using Notes_project.Models.ModelsDTO;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using Authorization.Repository.IRepository;
 using CartService.DataAccess;
 using CartService.Models;
+using Microsoft.EntityFrameworkCore;
+using Notes_project.Models.ModelsDTO;
+using ProductService.Models;
+using System.Linq.Expressions;
 
 namespace Authorization.Repository
 {
@@ -13,6 +12,7 @@ namespace Authorization.Repository
     {
         private ApplicationDbContext _db;
         internal DbSet<User> dbSet;
+
         public UserRepository(ApplicationDbContext db)
         {
             _db = db;
@@ -75,8 +75,6 @@ namespace Authorization.Repository
             {
                 throw;
             }
-
-
         }
 
         public async Task AddTest(User user)
@@ -100,8 +98,8 @@ namespace Authorization.Repository
             {
                 throw;
             }
-
         }
+
         public async Task<UserDTOTest> GetUser(string email)
         {
             try
@@ -123,7 +121,6 @@ namespace Authorization.Repository
             {
                 throw;
             }
-
         }
     }
 }
