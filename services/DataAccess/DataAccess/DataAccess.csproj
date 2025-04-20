@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	  <Version>1.0.10</Version>
+	  <PackageId>DataAccess.SimpleStoreWeb.Bodia</PackageId>
+	  <Version>1.0.0</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
