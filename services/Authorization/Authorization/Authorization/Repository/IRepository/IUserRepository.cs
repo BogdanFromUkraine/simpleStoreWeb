@@ -2,7 +2,7 @@
 using ProductService.Models;
 using System.Linq.Expressions;
 
-namespace Authorization.Repository.IRepository
+namespace Repository.IRepository
 {
     public interface IUserRepository
     {

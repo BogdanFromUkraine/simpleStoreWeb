@@ -1,4 +1,4 @@
-﻿using Authorization.Repository.IRepository;
+﻿using Repository.IRepository;
 using ProductService.Models;
 
 namespace Authorization.services

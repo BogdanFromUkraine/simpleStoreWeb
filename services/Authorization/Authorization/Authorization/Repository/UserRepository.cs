@@ -1,4 +1,4 @@
-﻿using Authorization.Repository.IRepository;
+﻿using Repository.IRepository;
 using CartService.DataAccess;
 using CartService.Models;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using Notes_project.Models.ModelsDTO;
 using ProductService.Models;
 using System.Linq.Expressions;
 
-namespace Authorization.Repository
+namespace Repository
 {
     public class UserRepository : IUserRepository
     {

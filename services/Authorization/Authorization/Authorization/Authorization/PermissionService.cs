@@ -1,7 +1,8 @@
-﻿using Authorization.Repository.IRepository;
+﻿
 
 namespace Authorization.Services
 {
+    using Repository.IRepository;
     public class PermissionService : IPermissionService
     {
         private readonly IUserRepository _userRepository;

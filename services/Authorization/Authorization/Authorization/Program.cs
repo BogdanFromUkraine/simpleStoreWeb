@@ -1,6 +1,6 @@
 ﻿using Authorization.Kafka.Producer;
-using Authorization.Repository;
-using Authorization.Repository.IRepository;
+using Repository;
+using Repository.IRepository;
 using Authorization.services;
 using Authorization.Services;
 using CartService.DataAccess;

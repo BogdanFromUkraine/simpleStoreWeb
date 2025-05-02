@@ -10,10 +10,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Product/Product.csproj", "Product/"]
-RUN dotnet restore "./Product/./Product.csproj"
+RUN dotnet restore "Product/Product.csproj"
 COPY . .
 WORKDIR "/src/Product"
-RUN dotnet build "./Product.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Product.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
