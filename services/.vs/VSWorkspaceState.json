@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Authorization\\Authorization\\Authorization",
+    "\\CartService\\CartService",
+    "\\DataAccess\\.config",
+    "\\Product\\Product",
+    "\\Product\\Product\\Controllers",
+    "\\Product\\Product\\Repository"
+  ],
+  "SelectedNode": "\\Product",
+  "PreviewInSolutionExplorer": false
+}

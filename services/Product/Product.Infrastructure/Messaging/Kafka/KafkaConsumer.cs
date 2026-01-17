@@ -2,7 +2,7 @@
 
 namespace Product.Kafka.Consumer
 {
-    public class KafkaConsumer : IKafkaConsumer
+    public class KafkaConsumer : IMessageConsumer
     {
         private readonly IMessageStorageService _messageStorageService;
 
@@ -10,15 +10,6 @@ namespace Product.Kafka.Consumer
         {
             _messageStorageService = messageStorageService;
         }
-
-        //protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        //{
-        //    return Task.Run(() =>
-        //    {
-        //        _ = ConsumeAsync("my-topic", stoppingToken);
-        //    }, stoppingToken);
-        //}
-
         public async Task ConsumeAsync(string topic, CancellationToken stoppingToken)
         {
             try

@@ -1,10 +1,9 @@
 ﻿using Authorization.Kafka.Producer;
-using CartService.DataAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Product.Application.Interfaces;
 using Product.Kafka.Consumer;
 using Product.Models;
-using Product.Repository.IRepository;
 using ProductService.Models;
 
 namespace Product.Controllers
@@ -13,43 +12,46 @@ namespace Product.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IEventProducer _eventProducer; // <-- Наш новий інтерфейс
         private readonly IMessageStorageService _messageStorageService;
-        private readonly IKafkaProducer _kafkaProducer;
 
-        public ProductsController(ApplicationDbContext context,
-            IProductRepository productRepository,
-            IMessageStorageService messageStorageService,
-            IKafkaProducer kafkaProducer)
+        private readonly IProductService _productService;
+
+
+        public ProductsController(
+             IProductService productService,
+             IEventProducer eventProducer,
+             IMessageStorageService messageStorageService
+             )
         {
-            _productRepository = productRepository;
+
+            _eventProducer = eventProducer;
             _messageStorageService = messageStorageService;
-            _kafkaProducer = kafkaProducer;
+            _productService = productService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
-            var products = _productRepository.GetAll();
+            var products = await _productService.GetProducts();
 
             //kafka producer
-            await _kafkaProducer.SendMessageAsync("product-topic", "key", products);
-            _kafkaProducer.Dispose();
+            await _eventProducer.SendMessageAsync("product-topic", "key", products);
 
             return Ok(products);
         }
 
-        [HttpGet("Test")]
-        public IActionResult Test()
-        {
-            var message = _messageStorageService.GetAllMessages();
-            return Ok(message);
-        }
+        //[HttpGet("Test")]
+        //public async Task<IActionResult> Test()
+        //{
+        //    var message = _messageStorageService.GetAllMessages();
+        //    return Ok(message);
+        //}
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)
         {
-            var product = _productRepository.GetProduct(id);
+            var product = await _productService.GetProductById(id);
 
             if (product == null)
             {
@@ -65,7 +67,7 @@ namespace Product.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductsDTO product)
         {
-            await _productRepository.Add(product);
+            await _productService.AddProduct(product);
 
             return Ok("все пройшло успішно");
         }
@@ -74,7 +76,7 @@ namespace Product.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductsDTO product)
         {
-            await _productRepository.Update(id, product);
+            await _productService.UpdateProduct(id, product);
 
             return Ok("Все пройшло успішно");
         }
@@ -83,7 +85,7 @@ namespace Product.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(string name)
         {
-            await _productRepository.Remove(name);
+            await _productService.RemoveProduct(name);
             return Ok("Все пройшло успішно");
         }
     }

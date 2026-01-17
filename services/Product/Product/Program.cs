@@ -1,11 +1,14 @@
-using Authorization.Kafka.Producer;
+﻿using Authorization.Kafka.Producer;
 using CartService.DataAccess;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Product.Kafka.Consumer;
+using Product.Application.Interfaces;
+using Product.Application.Services;
+using Product.Infrastructure.Mocks;
 using Product.Repository;
 using Product.Repository.IRepository;
+using Project.Infrastructure;
 using System.Text;
 
 namespace Product
@@ -16,28 +19,40 @@ namespace Product
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
 
-            //DI
-            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddInfrastructure(builder.Configuration);
 
-            ////�������� ��
-            builder.Services.AddDbContext<ApplicationDbContext>(option =>
-            option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            //��������� ������ ������
-            builder.Services.AddHostedService<KafkaConsumerBackgroundService>();
-            builder.Services.AddSingleton<IKafkaConsumer, KafkaConsumer>();
-            builder.Services.AddScoped<IKafkaProducer, ProductEventProducer>();
-            builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
+            //Перевірка через In-memory
+            //bool useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase");
 
-            // ������ CORS, ��� �� ��������� Ocelot
+            //if (useInMemory)
+            //{
+            //    // === РЕЖИМ IN-MEMORY (Тестовий) ===
+            //    Console.WriteLine("⚠️ УВАГА: Використовується In-Memory Product Repository!");
+
+            //    // Реєструємо мок як Singleton.
+            //    // Singleton означає "один екземпляр на все життя програми".
+            //    // Для In-Memory це ідеально, хоча твій список і так static, але це правильна практика.
+            //    builder.Services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            //}
+            //else
+            //{
+            //    // === РЕАЛЬНИЙ РЕЖИМ (SQL Database) ===
+            //    Console.WriteLine("✅ Підключено до реальної бази даних.");
+
+                
+            //}
+            //builder.Services.AddScoped<IProductService, Product.Application.Services.ProductService>();
+
+
+            // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
                     policy =>
                     {
-                        policy.WithOrigins("https://localhost:5173") // �������� ������ � React
+                        policy.WithOrigins("https://localhost:5173") // Дозволяє запити з React
                                .AllowAnyMethod()
                                .AllowAnyHeader()
                                .AllowCredentials()
@@ -50,7 +65,7 @@ namespace Product
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            //��� ���� �������� JWT
+            //код який перевіряє JWT
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -79,7 +94,7 @@ namespace Product
 
             app.UseHttpsRedirection();
 
-            // ������������� CORS
+            // Використовуємо CORS
             app.UseCors("AllowAll");
 
             app.UseAuthentication();

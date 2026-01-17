@@ -1,10 +1,12 @@
-﻿namespace Product.Kafka.Consumer
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Product.Kafka.Consumer
 {
     public class KafkaConsumerBackgroundService : BackgroundService
     {
-        private readonly IKafkaConsumer _consumerService;
+        private readonly IMessageConsumer _consumerService;
 
-        public KafkaConsumerBackgroundService(IKafkaConsumer consumerService)
+        public KafkaConsumerBackgroundService(IMessageConsumer consumerService)
         {
             _consumerService = consumerService;
         }

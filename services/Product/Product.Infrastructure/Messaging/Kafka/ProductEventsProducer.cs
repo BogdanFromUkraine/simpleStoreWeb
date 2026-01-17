@@ -5,7 +5,7 @@
     using ProductService.Models;
     using System.Threading.Tasks;
 
-    public class ProductEventProducer : IKafkaProducer
+    public class ProductEventProducer : IEventProducer
     {
         private readonly IProducer<Null, string> _producer;
 

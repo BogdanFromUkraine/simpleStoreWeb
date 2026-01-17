@@ -1,0 +1,64 @@
+services:
+  # 1. Сервіс продуктів (внутрішній)
+  product-service:
+    build:
+      context: ./Product
+      dockerfile: Product/Dockerfile
+    container_name: product-service
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - simplestore-net
+    restart: unless-stopped
+
+  # 2. Сервіс кошика (внутрішній)
+  cart-service:
+    build:
+      context: ./CartService
+    container_name: cart-service
+    networks:
+      - simplestore-net
+    restart: unless-stopped
+
+  # 3. Сервіс авторизації (внутрішній)
+  authorization-service:
+    build:
+      context: ./Authorization/Authorization
+    container_name: authorization-service
+    networks:
+      - simplestore-net
+    restart: unless-stopped
+
+  # 4. API-шлюз (точка входу для бекенду)
+  api-gateway:
+    build:
+      context: ./ApiGateway
+    container_name: api-gateway
+    networks:
+      - simplestore-net
+    ports:
+      - "8000:8080"
+    depends_on:
+      - product-service
+      - cart-service
+      - authorization-service
+    restart: unless-stopped
+
+  # 5. Фронтенд (новий сервіс)
+  simplestore-frontend:
+    build:
+      context: ../frontend/simpleStoreWeb # <-- Переконайтесь, що назва папки правильна
+    container_name: simplestore-frontend
+    networks:
+      - simplestore-net
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+    restart: unless-stopped
+
+networks:
+  simplestore-net:
+    driver: bridge

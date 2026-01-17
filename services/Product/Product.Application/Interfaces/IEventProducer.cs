@@ -2,7 +2,7 @@
 
 namespace Authorization.Kafka.Producer
 {
-    public interface IKafkaProducer
+    public interface IEventProducer
     {
         Task SendMessageAsync(string topic, string key, IEnumerable<Products> message);
 
