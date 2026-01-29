@@ -1,6 +1,5 @@
-﻿using Authorization.Kafka.Producer;
-using Repository;
-using Repository.IRepository;
+﻿using Authorization.Infrastructure;
+using Authorization.Kafka.Producer;
 using Authorization.services;
 using Authorization.Services;
 using CartService.DataAccess;
@@ -8,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Repository;
+using Repository.IRepository;
 using System.Text;
 
 namespace Authorization
@@ -20,16 +21,19 @@ namespace Authorization
 
             // Add services to the container.
 
-            //підключаю бд
-            builder.Services.AddDbContext<ApplicationDbContext>(option =>
-            option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-            b => b.MigrationsAssembly("DataAccess")));
 
-            //створив Configuration, щоб получити secret key
-            var configuration = builder.Configuration;
+            builder.Services.AddInfrastructure(builder.Configuration);
 
-            //створюю конфігурацію, щоб пізніше переадти через DI
-            builder.Services.Configure<AuthorizationOptions>(configuration.GetSection(nameof(AuthorizationOptions)));
+            ////підключаю бд
+            //builder.Services.AddDbContext<ApplicationDbContext>(option =>
+            //option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+            //b => b.MigrationsAssembly("DataAccess")));
+
+            ////створив Configuration, щоб получити secret key
+            //var configuration = builder.Configuration;
+
+            ////створюю конфігурацію, щоб пізніше переадти через DI
+            //builder.Services.Configure<AuthorizationOptions>(configuration.GetSection(nameof(AuthorizationOptions)));
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
@@ -60,23 +64,23 @@ namespace Authorization
                     };
                 });
 
-            builder.Services.AddAuthorization();
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin", policy =>
-                {
-                    policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Create]));
-                    policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Delete]));
-                });
-            });
+            //builder.Services.AddAuthorization();
+            //builder.Services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("Admin", policy =>
+            //    {
+            //        policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Create]));
+            //        policy.Requirements.Add(new PermissionRequirement([Enum.Permission.Delete]));
+            //    });
+            //});
 
-            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-            builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IPermissionService, PermissionService>();
-            builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-            builder.Services.AddScoped<IKafkaProducer, UserEventProducer>();
+            //builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            //builder.Services.AddScoped<IUserRepository, UserRepository>();
+            //builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+            //builder.Services.AddScoped<IUserService, UserService>();
+            //builder.Services.AddScoped<IPermissionService, PermissionService>();
+            //builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            //builder.Services.AddScoped<IKafkaProducer, UserEventProducer>();
 
             // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>

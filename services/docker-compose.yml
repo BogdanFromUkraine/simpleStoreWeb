@@ -17,7 +17,12 @@ services:
   cart-service:
     build:
       context: ./CartService
+      dockerfile: CartService/Dockerfile
     container_name: cart-service
+    ports:
+    - "5010:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - simplestore-net
     restart: unless-stopped

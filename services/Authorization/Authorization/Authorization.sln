@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization", "Authorization\Authorization.csproj", "{F2DE4F1A-F7D5-42D3-A917-4549FF5A7B9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.API", "Authorization\Authorization.API.csproj", "{F2DE4F1A-F7D5-42D3-A917-4549FF5A7B9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Domain", "Authorization.Domain\Authorization.Domain.csproj", "{D60847A1-7085-460C-9E0E-F44B096B4B8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Application", "Authorization.Application\Authorization.Application.csproj", "{DD31B9C1-2119-4962-B28A-0C63D5C29530}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Infrastructure", "Authorization.Infrastructure\Authorization.Infrastructure.csproj", "{91BA3E95-3D53-4440-840B-5F512450A2D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{F2DE4F1A-F7D5-42D3-A917-4549FF5A7B9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2DE4F1A-F7D5-42D3-A917-4549FF5A7B9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2DE4F1A-F7D5-42D3-A917-4549FF5A7B9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D60847A1-7085-460C-9E0E-F44B096B4B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D60847A1-7085-460C-9E0E-F44B096B4B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D60847A1-7085-460C-9E0E-F44B096B4B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D60847A1-7085-460C-9E0E-F44B096B4B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD31B9C1-2119-4962-B28A-0C63D5C29530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD31B9C1-2119-4962-B28A-0C63D5C29530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD31B9C1-2119-4962-B28A-0C63D5C29530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD31B9C1-2119-4962-B28A-0C63D5C29530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91BA3E95-3D53-4440-840B-5F512450A2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91BA3E95-3D53-4440-840B-5F512450A2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91BA3E95-3D53-4440-840B-5F512450A2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91BA3E95-3D53-4440-840B-5F512450A2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

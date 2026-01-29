@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Confluent.Kafka" Version="2.8.0" />
+    <PackageReference Include="DataAccess.SimpleStoreWeb.Bodia" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="10.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authorization.Application\Authorization.Application.csproj" />
+    <ProjectReference Include="..\Authorization.Domain\Authorization.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

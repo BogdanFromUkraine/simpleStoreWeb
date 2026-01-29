@@ -1,4 +1,6 @@
-﻿namespace CartService.Kafka.Consumer
+﻿using Microsoft.Extensions.Hosting;
+
+namespace CartService.Kafka.Consumer
 {
     public class KafkaConsumerBackgroundService : BackgroundService
     {
