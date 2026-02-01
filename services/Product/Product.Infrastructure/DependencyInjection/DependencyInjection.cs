@@ -58,9 +58,11 @@ namespace Project.Infrastructure
             // У тебе клас може називатися ProductEventProducer або KafkaProducer
             services.AddSingleton<IEventProducer, ProductEventProducer>();
 
+            services.AddSingleton<IMessageStorageService, MessageStorageService>();
+
             // 3. Реєстрація Consumer (Консюмера)
             // Реєструємо сам клас логіки читання
-            services.AddSingleton<KafkaConsumer>();
+            services.AddSingleton<IMessageConsumer, KafkaConsumer>();
 
             // 4. Реєстрація Background Service (Фонова служба)
             // Це те, що фізично запустить метод ExecuteAsync і почне слухати топік

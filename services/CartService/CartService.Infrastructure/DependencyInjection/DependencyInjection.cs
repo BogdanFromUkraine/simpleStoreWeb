@@ -26,7 +26,7 @@ namespace Project.Infrastructure
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             // Ось твій рядок, заради якого ми це робимо!
-            services.AddSingleton<ICartRepository, CartRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<ICartService, CartService.Application.Services.CartService>();
 
             // підключення до БД

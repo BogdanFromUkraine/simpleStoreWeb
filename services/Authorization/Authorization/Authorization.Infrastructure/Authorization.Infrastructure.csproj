@@ -1,23 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+		<PackageReference Include="Confluent.Kafka" Version="2.13.0" />
+		<PackageReference Include="DataAccess.SimpleStoreWeb.Bodia" Version="1.0.0" />
 
-  <ItemGroup>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="Confluent.Kafka" Version="2.8.0" />
-    <PackageReference Include="DataAccess.SimpleStoreWeb.Bodia" Version="1.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="10.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
+		<!-- Фіксуємо під .NET 8, щоб уникнути MissingMethodException -->
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.10" />
 
-  <ItemGroup>
-    <ProjectReference Include="..\Authorization.Application\Authorization.Application.csproj" />
-    <ProjectReference Include="..\Authorization.Domain\Authorization.Domain.csproj" />
-  </ItemGroup>
+		<!-- Стара версія 2.3.9 → замінюємо на сумісну з net8.0 (або взагалі прибираємо, якщо можливо) -->
+		<!-- Якщо ти використовуєш IHttpContextAccessor або HttpContext — краще брати з Microsoft.AspNetCore.App (implicit) -->
+		<!-- Якщо дуже потрібно явно — постав 8.0.x версію -->
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="8.0.10" Condition="'$(TargetFramework)' == 'net8.0'" />
 
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<!-- 13.0.4 теж ок, але 13.0.3 стабільніша в багатьох проєктах -->
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Authorization.Application\Authorization.Application.csproj" />
+		<ProjectReference Include="..\Authorization.Domain\Authorization.Domain.csproj" />
+	</ItemGroup>
 </Project>

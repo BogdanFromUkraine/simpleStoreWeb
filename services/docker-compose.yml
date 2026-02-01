@@ -28,13 +28,17 @@ services:
     restart: unless-stopped
 
   # 3. Сервіс авторизації (внутрішній)
-  authorization-service:
-    build:
-      context: ./Authorization/Authorization
-    container_name: authorization-service
-    networks:
-      - simplestore-net
-    restart: unless-stopped
+  # authorization-service:
+  #   build:
+  #     context: ./Authorization/Authorization
+  #     dockerfile: Authorization/Dockerfile
+  #   container_name: authorization-service
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   networks:
+  #     - simplestore-net
+  #   restart: unless-stopped
+  
 
   # 4. API-шлюз (точка входу для бекенду)
   api-gateway:
@@ -48,7 +52,7 @@ services:
     depends_on:
       - product-service
       - cart-service
-      - authorization-service
+      #- authorization-service
     restart: unless-stopped
 
   # 5. Фронтенд (новий сервіс)
