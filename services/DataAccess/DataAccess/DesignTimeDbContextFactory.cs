@@ -1,11 +1,6 @@
 ﻿using CartService.DataAccess;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
@@ -14,7 +9,7 @@ namespace DataAccess
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Server=DESKTOP-AP74R5B;Database=simpleStoreWeb;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=test_db;Username=root;Password=root");
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
