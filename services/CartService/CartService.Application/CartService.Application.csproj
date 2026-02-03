@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DataAccess.SimpleStoreWeb.Bodia" Version="1.0.0" />
+    <PackageReference Include="DataAccess.SimpleStoreWeb.Bodia" Version="1.0.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
   </ItemGroup>
 
 </Project>

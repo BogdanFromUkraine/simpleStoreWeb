@@ -39,7 +39,7 @@ RUN dotnet build "CartService.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # 5. Публікуємо (створюємо фінальні файли для запуску)
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug
 RUN dotnet publish "CartService.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # 6. Фінальний образ

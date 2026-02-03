@@ -1,11 +1,6 @@
 ﻿using CartService.Application.Interfaces;
 using CartService.Models;
 using CartService.Repository.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CartService.Application.Services
 {

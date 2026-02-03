@@ -15,23 +15,12 @@ namespace CartService
 
             // Add services to the container.
 
-            //підключаю бд
-            //builder.Services.AddDbContext<ApplicationDbContext>(option =>
-            //option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
             builder.Services.AddInfrastructure(builder.Configuration);
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            //builder.Services.AddScoped<ICartRepository, CartRepository>();
-
-            ////реєстрація фонової служби
-            //builder.Services.AddHostedService<KafkaConsumerBackgroundService>();
-            //builder.Services.AddSingleton<IEventConsumer, KafkaConsumer>();
-            //builder.Services.AddSingleton<IMessageStorageService, MessageStorageService>();
 
             // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>
@@ -55,7 +44,7 @@ namespace CartService
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             // Використовуємо CORS
             app.UseCors("AllowOcelot");

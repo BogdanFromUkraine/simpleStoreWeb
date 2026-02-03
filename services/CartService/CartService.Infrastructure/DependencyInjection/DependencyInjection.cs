@@ -1,8 +1,6 @@
 ﻿using CartService.Application.Interfaces;
 using CartService.DataAccess;
 using CartService.Kafka.Consumer;
-using CartService.Repository;
-using CartService.Repository.IRepository;
 using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,13 +23,14 @@ namespace Project.Infrastructure
         // 1. Окремий Extension метод для БАЗИ ДАНИХ (Persistence)
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
+            Console.WriteLine(">>>>>>>>>> УВАГА! РЕЄСТРАЦІЯ ICartRepository <<<<<<<<<<");
             // Ось твій рядок, заради якого ми це робимо!
-            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<CartService.Repository.IRepository.ICartRepository, CartService.Repository.CartRepository>();
             services.AddScoped<ICartService, CartService.Application.Services.CartService>();
 
             // підключення до БД
             services.AddDbContext<ApplicationDbContext>(option =>
-           option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+           option.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }

@@ -10,33 +10,24 @@ namespace CartService.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly ICartRepository _cartRepository;
-        private readonly IMessageStorageService _messageStorageService;
-        private readonly IEventConsumer _kafkaConsumer;
-
+        //private readonly IMessageStorageService _messageStorageService;
+        //private readonly IEventConsumer _kafkaConsumer;
         private readonly ICartService _cartService;
-        public CartController(ICartRepository cartRepository,
-            IMessageStorageService messageStorageService,
-            IEventConsumer kafkaConsumer,
+
+        public CartController(
+                              //ICartRepository cartRepository,
+            //IMessageStorageService messageStorageService,
+            //IEventConsumer kafkaConsumer,
             ICartService cartService)
         {
-            _cartRepository = cartRepository;
-            _messageStorageService = messageStorageService;
-            _kafkaConsumer = kafkaConsumer;
+            //_messageStorageService = messageStorageService;
+            //_kafkaConsumer = kafkaConsumer;
             _cartService = cartService;
         }
 
         [HttpGet("{userId}")]
         public async Task<ActionResult<Cart>> GetCart(string userId)
         {
-            //Guid guid = Guid.Parse(userId);
-
-            //var cart = await _cartRepository.GetCartByUserId(guid);
-            //if (cart == null)
-            //{
-            //    return NotFound("Кошик не знайдено.");
-            //}
-
             var cart = await _cartService.GetUserCartAsync(userId);
 
             return Ok(cart.Items);
