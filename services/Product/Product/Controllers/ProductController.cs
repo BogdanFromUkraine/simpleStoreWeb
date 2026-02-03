@@ -64,7 +64,7 @@ namespace Product.Controllers
         //методи нижче будуть доступні тільки адміну
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct([FromBody] ProductsDTO product)
         {
             await _productService.AddProduct(product);
@@ -73,7 +73,7 @@ namespace Product.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductsDTO product)
         {
             await _productService.UpdateProduct(id, product);
@@ -82,7 +82,7 @@ namespace Product.Controllers
         }
 
         [HttpDelete("{name}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProduct(string name)
         {
             await _productService.RemoveProduct(name);

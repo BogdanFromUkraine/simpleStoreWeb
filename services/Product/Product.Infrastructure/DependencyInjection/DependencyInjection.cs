@@ -32,7 +32,7 @@ namespace Project.Infrastructure
 
             // підключення до БД
             services.AddDbContext<ApplicationDbContext>(option =>
-           option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+           option.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
