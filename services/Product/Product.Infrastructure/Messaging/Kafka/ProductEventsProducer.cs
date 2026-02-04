@@ -13,7 +13,7 @@
         {
             var config = new ProducerConfig
             {
-                BootstrapServers = "localhost:9092",
+                BootstrapServers = "kafka:29092",
                 Acks = Acks.All,  // Очікуємо підтвердження від всіх брокерів
                 MessageTimeoutMs = 60000,  // Довше чекаємо підтвердження від брокера
                 RetryBackoffMs = 500,  // Час очікування між повторними спробами

@@ -1,4 +1,5 @@
 ﻿using CartService.Application.Interfaces;
+using CartService.Kafka.Consumer;
 using CartService.Models;
 using CartService.Repository.IRepository;
 
@@ -7,23 +8,24 @@ namespace CartService.Application.Services
     public class CartService : ICartService
     {
         private readonly ICartRepository _repository;
-        public CartService(ICartRepository repository)
+        private readonly IMessageStorageService _messageStorageService;
+        public CartService(ICartRepository repository, IMessageStorageService messageStorageService)
         {
             _repository = repository;
+            _messageStorageService = messageStorageService;
         }
         public async Task<Cart?> AddItemToCartAsync(string userId, int productId)
         {
-            //var productsFromKafka = await _messageStorageService.GetAllMessages();
-            ////логіка знаходження product, тому що карт репосіторі, повинен працювати тільки з cart і не мати доступу до інших
-            //var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
-            //                  .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
+            Guid guid = Guid.Parse(userId);
 
+            var productsFromKafka = await _messageStorageService.GetAllMessages();
+            //логіка знаходження product, тому що карт репосіторі, повинен працювати тільки з cart і не мати доступу до інших
+            var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
+                              .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
 
-            //await _repository.Add(userId, product);
+            await _repository.Add(guid, product);
 
-            //return product;
-
-            throw new NotImplementedException();
+            return null;
         }
 
         public async Task<Cart?> GetUserCartAsync(string userId)
@@ -44,12 +46,11 @@ namespace CartService.Application.Services
         {
             Guid guid = Guid.Parse(userId);
 
-            //var productsFromKafka = await _messageStorageService.GetAllMessages();
-            //var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
-            //                 .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
-            //await _repository.Remove(guid, product);
+            var productsFromKafka = await _messageStorageService.GetAllMessages();
+            var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
+                             .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
+            await _repository.Remove(guid, product);
 
-            throw new NotImplementedException();
         }
     }
 }

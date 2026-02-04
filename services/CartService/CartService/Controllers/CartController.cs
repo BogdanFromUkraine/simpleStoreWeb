@@ -1,7 +1,6 @@
 ﻿using CartService.Application.Interfaces;
 using CartService.Kafka.Consumer;
 using CartService.Models;
-using CartService.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.Controllers
@@ -10,18 +9,12 @@ namespace CartService.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        //private readonly IMessageStorageService _messageStorageService;
-        //private readonly IEventConsumer _kafkaConsumer;
         private readonly ICartService _cartService;
 
         public CartController(
-                              //ICartRepository cartRepository,
-            //IMessageStorageService messageStorageService,
-            //IEventConsumer kafkaConsumer,
+            IEventConsumer kafkaConsumer,
             ICartService cartService)
         {
-            //_messageStorageService = messageStorageService;
-            //_kafkaConsumer = kafkaConsumer;
             _cartService = cartService;
         }
 
@@ -36,25 +29,15 @@ namespace CartService.Controllers
         [HttpPost("{userId}/items/{productId}")]
         public async Task<ActionResult<Cart>> AddToCart(string userId, int productId)
         {
-            //var productsFromKafka = await _messageStorageService.GetAllMessages();
-            ////логіка знаходження product, тому що карт репосіторі, повинен працювати тільки з cart і не мати доступу до інших
-            //var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
-            //                  .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
+            await _cartService.AddItemToCartAsync(userId, productId);
 
-           // await _cartService.AddItemToCartAsync(userId, product);
-            //return Ok(product);
             return Ok();
         }
 
         [HttpDelete("{userId}/items/{productId}")]
         public async Task<ActionResult> RemoveFromCart(string userId, int productId)
         {
-            //Guid guid = Guid.Parse(userId);
-
-            //var productsFromKafka = await _messageStorageService.GetAllMessages();
-            //var product = productsFromKafka.SelectMany(p => p) // Розгортаємо всі списки у один
-            //                 .FirstOrDefault(p => p.Id == productId); // Знаходимо першого користувача з заданим Id
-            //await _cartService.RemoveItemFromCartAsync(guid, product);
+            await _cartService.RemoveItemFromCartAsync(userId, productId);
 
             return Ok("Все пройшло успішно");
         }

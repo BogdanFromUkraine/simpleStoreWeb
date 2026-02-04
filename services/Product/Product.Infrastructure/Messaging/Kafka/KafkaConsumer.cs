@@ -17,7 +17,7 @@ namespace Product.Kafka.Consumer
                 var config = new ConsumerConfig
                 {
                     GroupId = "product-group",
-                    BootstrapServers = "localhost:9092",
+                    BootstrapServers = "kafka:29092",
                     AutoOffsetReset = AutoOffsetReset.Earliest
                 };
                 using var consumer = new ConsumerBuilder<Null, string>(config).Build();
@@ -33,10 +33,11 @@ namespace Product.Kafka.Consumer
                 }
                 consumer.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //
-                throw;
+                // Глобальна помилка підключення (наприклад, брокер лежить)
+                Console.WriteLine($"Kafka connection failed: {ex.Message}. Retrying in 10s...");
+                await Task.Delay(10000, stoppingToken);
             }
         }
     }

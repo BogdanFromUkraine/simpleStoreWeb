@@ -20,7 +20,7 @@ namespace CartService.Kafka.Consumer
                 var config = new ConsumerConfig
                 {
                     GroupId = "cart-group",
-                    BootstrapServers = "localhost:9092",
+                    BootstrapServers = "kafka:29092",
                     AutoOffsetReset = AutoOffsetReset.Earliest,
                     EnableAutoCommit = false,  // Вимикаємо автофіксацію офсетів
                     SessionTimeoutMs = 60000,  // Довше чекаємо перед розривом з'єднання

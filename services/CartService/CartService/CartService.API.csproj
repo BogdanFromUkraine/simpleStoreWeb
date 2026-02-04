@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Kafka\Producer\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CartService.Application\CartService.Application.csproj" />
     <ProjectReference Include="..\CartService.Infrastructure\CartService.Infrastructure.csproj" />
   </ItemGroup>
