@@ -89,10 +89,18 @@ namespace Product
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c =>
+                {
+                    // Вказуємо шлях до JSON-файлу з урахуванням префікса Envoy
+                    c.SwaggerEndpoint("/product/swagger/v1/swagger.json", "Product API V1");
+
+                    // Це необов'язково, але зручно: 
+                    // Swagger буде доступний за адресою /product/swagger
+                    c.RoutePrefix = "swagger";
+                });
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             // Використовуємо CORS
             app.UseCors("AllowAll");

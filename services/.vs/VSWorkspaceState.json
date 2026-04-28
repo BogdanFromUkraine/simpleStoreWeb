@@ -1,13 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Authorization\\Authorization\\Authorization",
+    "\\CartService",
     "\\CartService\\CartService",
-    "\\DataAccess\\.config",
-    "\\Product\\Product",
-    "\\Product\\Product\\Controllers",
-    "\\Product\\Product\\Repository"
+    "\\CartService\\CartService.Infrastructure",
+    "\\CartService\\CartService.Infrastructure\\DependencyInjection",
+    "\\CartService\\CartService\\Controllers",
+    "\\envoy"
   ],
-  "SelectedNode": "\\Product",
+  "SelectedNode": "\\CartService\\CartService.Infrastructure\\DependencyInjection\\DependencyInjection.cs",
   "PreviewInSolutionExplorer": false
 }
