@@ -6,8 +6,9 @@
     "\\CartService\\CartService.Infrastructure",
     "\\CartService\\CartService.Infrastructure\\DependencyInjection",
     "\\CartService\\CartService\\Controllers",
-    "\\envoy"
+    "\\Product",
+    "\\Product\\Product",
+    "\\Product\\Product\\Controllers"
   ],
-  "SelectedNode": "\\CartService\\CartService.Infrastructure\\DependencyInjection\\DependencyInjection.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -34,16 +34,26 @@ static_resources:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
                     disabled: true
               - match:
+                  prefix: "/product/swagger"
+                route:
+                  cluster: product-service
+                  prefix_rewrite: "/swagger"
+              - match:
                   prefix: "/product/"
                 route:
                   cluster: product-service
-                  prefix_rewrite: "/"
+                  prefix_rewrite: "/api/Product/"
                   max_grpc_timeout: 0s
+              - match:
+                  prefix: "/cart/swagger"
+                route:
+                  cluster: cart-service
+                  prefix_rewrite: "/swagger"
               - match:
                   prefix: "/cart/"
                 route:
                   cluster: cart-service
-                  prefix_rewrite: "/"
+                  prefix_rewrite: "/api/Cart/"
                   max_grpc_timeout: 0s
           http_filters:
           - name: envoy.filters.http.cors
@@ -64,14 +74,16 @@ static_resources:
                 authorization_request:
                   allowed_headers:
                     patterns:
+                    - exact: "authorization"
                     - exact: cookie
                     - exact: x-forwarded-access-token
                 authorization_response:
                   allowed_upstream_headers:
                     patterns:
-                    - exact: x-auth-request-user
-                    - exact: x-auth-request-email
-                    - exact: authorization
+                    - exact: "authorization"
+                    - exact: "x-forwarded-access-token"
+                    - exact: "x-auth-request-user"
+                    - exact: "x-auth-request-email"
           - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router

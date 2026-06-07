@@ -5,6 +5,7 @@ using Product.Application.Interfaces;
 using Product.Kafka.Consumer;
 using Product.Models;
 using ProductService.Models;
+using System.Security.Claims;
 
 namespace Product.Controllers
 {
@@ -41,12 +42,47 @@ namespace Product.Controllers
             return Ok(products);
         }
 
-        //[HttpGet("Test")]
-        //public async Task<IActionResult> Test()
-        //{
-        //    var message = _messageStorageService.GetAllMessages();
-        //    return Ok(message);
-        //}
+        [HttpGet("check-auth")]
+        [Authorize] // <--- Головний тригер для перевірки JWT
+        public IActionResult CheckAuth()
+        {
+            // Якщо код дійшов сюди, значить токен ВАЛІДНИЙ!
+
+            // Спробуємо витягнути дані з токена (наприклад, ID користувача)
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                         ?? User.FindFirst("sub")?.Value;
+
+            return Ok(new
+            {
+                Message = "✅ Аутентифікація працює ідеально!",
+                UserId = userId,
+                // Виводимо всі розшифровані дані (Claims), щоб переконатися, що все прочиталось
+                Claims = User.Claims.Select(c => new { c.Type, c.Value })
+            });
+        }
+
+        [HttpGet("debug-auth")]
+        [Authorize]
+        public IActionResult DebugAuth()
+        {
+            // 1. Отримуємо стандартний заголовок
+            var authHeader = Request.Headers["Authorization"].ToString();
+
+            // 2. Отримуємо кастомний заголовок від OAuth2-Proxy
+            var xAuthToken = Request.Headers["X-Forwarded-Access-Token"].ToString();
+
+            // 3. Збираємо абсолютно всі заголовки для повної картини
+            var allHeaders = Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString());
+
+            return Ok(new
+            {
+                Message = "Перевірка токенів",
+                FoundAuthorizationHeader = !string.IsNullOrEmpty(authHeader),
+                AuthorizationValue = authHeader.Length > 20 ? authHeader.Substring(0, 20) + "..." : authHeader,
+                FoundXForwardedToken = !string.IsNullOrEmpty(xAuthToken),
+                AllHeaders = allHeaders
+            });
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Products>> GetProduct(int id)

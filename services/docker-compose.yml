@@ -56,17 +56,17 @@ services:
     restart: unless-stopped
 
   # 5. Фронтенд (новий сервіс)
-  simplestore-frontend:
-    build:
-      context: ../frontend/simpleStoreWeb # <-- Переконайтесь, що назва папки правильна
-    container_name: simplestore-frontend
-    networks:
-      - simplestore-net
-    ports:
-      - "3000:80"
-    depends_on:
-      - api-gateway
-    restart: unless-stopped
+  # simplestore-frontend:
+  #   build:
+  #     context: ../frontend/simpleStoreWeb <-- Переконайтесь, що назва папки правильна
+  #   container_name: simplestore-frontend
+  #   networks:
+  #     - simplestore-net
+  #   ports:
+  #     - "3000:80"
+  #   depends_on:
+  #     - api-gateway
+  #   restart: unless-stopped
 
 
   zookeeper:
@@ -193,6 +193,18 @@ services:
       
       OAUTH2_PROXY_COOKIE_SECURE: "false" 
       OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+
+      OAUTH2_PROXY_PASS_ACCESS_TOKEN: "true"
+      
+      # 2. Створює заголовок X-Auth-Request-Access-Token (зручно для .NET)
+      OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+      
+      # 3. Створює стандартний заголовок Authorization: Bearer <token>
+      OAUTH2_PROXY_PASS_AUTHORIZATION_HEADER: "true"
+
+      # Вмикає генерацію заголовка Authorization: Bearer <JWT>
+      OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: "true"
+
     depends_on:
       - keycloak
     networks:
