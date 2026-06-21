@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProductService.API.GrpcServices;
 using Project.Infrastructure;
 using System.Text;
 
@@ -11,6 +12,16 @@ namespace Product
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                // 1. Порт 8080 — тільки для REST Web API / Swagger (HTTP/1.1)
+                options.ListenAnyIP(8081, listenOptions =>
+                {
+                    listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
+                });
+
+            });
 
 
             builder.Services.AddInfrastructure(builder.Configuration);
@@ -182,6 +193,7 @@ namespace Product
             app.UseAuthorization();
 
             app.MapControllers();
+            app.MapGrpcService<InventoryGrpcService>();
 
             app.Run();
         }

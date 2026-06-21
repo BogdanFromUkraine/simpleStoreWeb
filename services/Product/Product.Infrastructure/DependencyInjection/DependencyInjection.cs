@@ -34,6 +34,8 @@ namespace Project.Infrastructure
             services.AddDbContext<ApplicationDbContext>(option =>
            option.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddGrpc();
+
             return services;
         }
 

@@ -1,4 +1,5 @@
 using CartService.DataAccess;
+using CartService.Infrastructure.Grpc;
 using CartService.Kafka.Consumer;
 using CartService.Repository;
 using CartService.Repository.IRepository;
@@ -16,6 +17,11 @@ namespace CartService
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.Configure<HostOptions>(options =>
+            {
+                options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+
             // Add services to the container.
 
             builder.Services.AddInfrastructure(builder.Configuration);
@@ -24,6 +30,12 @@ namespace CartService
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddGrpcClient<InventoryStorage.InventoryStorageClient>(options =>
+            {
+                // Замість localhost ми пишемо назву сервісу з docker-compose та його ВНУТРІШНІЙ порт
+                options.Address = new Uri("http://product-service:8081");
+            });
 
             // Додаємо CORS, щоб не блокувало Ocelot
             builder.Services.AddCors(options =>

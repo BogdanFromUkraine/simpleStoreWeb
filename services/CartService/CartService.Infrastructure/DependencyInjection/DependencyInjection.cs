@@ -1,5 +1,6 @@
 ﻿using CartService.Application.Interfaces;
 using CartService.DataAccess;
+using CartService.Infrastructure.GrpcClients;
 using CartService.Kafka.Consumer;
 using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,8 @@ namespace Project.Infrastructure
             // Ми розбиваємо великий метод на менші шматочки для порядку
             services.AddPersistence(configuration);
             services.AddKafka(configuration);
+
+            services.AddScoped<IProductStockService, ProductStockService>();
 
             return services;
         }

@@ -29,7 +29,7 @@ namespace CartService.Repository
             var cart = await GetById(userId);
 
             //шукаю product, який треба буде добавити до кошику
-            //var productToCart = _db.Products.FirstOrDefault(p => p.Id == productId);
+            var productToCart = _db.Products.FirstOrDefault(p => p.Id == product.Id);
 
             // Додати продукт до кошика
             cart.Items.Add(product);

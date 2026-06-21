@@ -36,4 +36,8 @@
     <ProjectReference Include="..\CartService.Infrastructure\CartService.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Protobuf Include="Protos\inventory.proto" GrpcServices="Client" />
+  </ItemGroup>
+
 </Project>

@@ -9,14 +9,30 @@ namespace CartService.Application.Services
     {
         private readonly ICartRepository _repository;
         private readonly IMessageStorageService _messageStorageService;
-        public CartService(ICartRepository repository, IMessageStorageService messageStorageService)
+        private readonly IProductStockService _stockService;
+        public CartService(ICartRepository repository, IMessageStorageService messageStorageService, IProductStockService stockService)
         {
             _repository = repository;
             _messageStorageService = messageStorageService;
+            _stockService = stockService;
         }
         public async Task<Cart?> AddItemToCartAsync(string userId, int productId)
         {
             Guid guid = Guid.Parse(userId);
+                
+            int quantity = 200;
+            string testproductId = productId.ToString();
+
+            bool isAvailable = await _stockService.IsInStockAsync(testproductId, quantity);
+
+            if (!isAvailable)
+            {
+                Console.WriteLine("Немає потрібної кількості товару на складі!");
+            }
+            else 
+            {
+                Console.WriteLine("Є у наявності");
+            }
 
             var productsFromKafka = await _messageStorageService.GetAllMessages();
             //логіка знаходження product, тому що карт репосіторі, повинен працювати тільки з cart і не мати доступу до інших

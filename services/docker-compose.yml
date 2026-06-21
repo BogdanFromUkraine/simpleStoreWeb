@@ -7,6 +7,7 @@ services:
     container_name: product-service
     ports:
       - "5005:8080"
+      - "5006:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     networks:
@@ -100,6 +101,7 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://0.0.0.0:29092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
     
     
@@ -112,7 +114,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: test_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
