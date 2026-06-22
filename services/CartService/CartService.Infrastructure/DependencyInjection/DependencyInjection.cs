@@ -3,9 +3,11 @@ using CartService.DataAccess;
 using CartService.Infrastructure.GrpcClients;
 using CartService.Kafka.Consumer;
 using Confluent.Kafka;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Project.Infrastructure
 {
@@ -17,6 +19,7 @@ namespace Project.Infrastructure
             // Ми розбиваємо великий метод на менші шматочки для порядку
             services.AddPersistence(configuration);
             services.AddKafka(configuration);
+            services.AddAuthAndCors(configuration);
 
             services.AddScoped<IProductStockService, ProductStockService>();
 
@@ -64,6 +67,53 @@ namespace Project.Infrastructure
             // 6. Реєстрація Background Service (Фонова служба)
             // Це "двигун", який запускає процес
             services.AddHostedService<KafkaConsumerBackgroundService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddAuthAndCors(this IServiceCollection services, IConfiguration configuration)
+        {
+            // 1. Виносимо CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOcelot", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
+            // 2. Виносимо Authentication + Keycloak JWT
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "http://localhost:9080/realms/demorealm";
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.MetadataAddress = "http://keycloak:8080/realms/demorealm/.well-known/openid-configuration";
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = true,
+                        ValidIssuer = "http://localhost:9080/realms/demorealm",
+                        ValidateAudience = true,
+                        ValidAudience = "democlient",
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                        ValidTypes = new[] { "JWT", "ID" }
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            Console.WriteLine($"[JWT DEBUG] Помилка: {context.Exception.Message}");
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            services.AddAuthorization();
 
             return services;
         }
